@@ -1,0 +1,51 @@
+/* Guess that number */
+
+h1 {
+	font-size: 3em;
+}
+
+#game-setup {
+	background-color:
+}
+
+#game-setup p {
+	font-size: 1.3em;
+}
+
+#game-setup input {
+	font-size: 1.3em;
+	height: 30px;
+}
+
+#game-setup input#guess_number {
+	width: 75px;
+	margin-right: 10px;
+}
+
+#messages {
+	height: 30px;
+	font-size: 1.3em;
+}
+
+#game-board {
+    cursor: pointer;
+    text-align: center;
+}
+
+
+#game-board div.some-number {
+    background-color: white;
+    border: 1px solid black;
+    width: 55px;
+    padding: 3px 0;
+    float: left;
+}
+
+#game-board div.wrong {
+    background-color: #ccc;
+}
+
+#game-board div.right {
+    color: white;
+    background-color: red;
+}
