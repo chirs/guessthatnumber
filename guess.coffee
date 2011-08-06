@@ -5,7 +5,7 @@ game = null
 randomRange = (start, end) -> Math.floor(start + (1 + end - start) * Math.random())
 
 # Generate a response
-makeResponse = (n) ->
+makeResponse = () ->
   choices = [
     "Not it!",
     "Whoopsies!",
@@ -24,33 +24,37 @@ sendMessage = (message) ->
 
 # Create a number box for the game.
 makeNumberBox = (n) ->
-  "<div class='some-number'>#{ n }</div>"
+  "<div class='some-number'>#{n}</div>"
 
 # Generate an object representing the game.
 createGame = (number) ->
-  game =
-    secret: randomRange(1, number)
-    numberClick: () ->
-      i = $(this).val()
-      if i == this.secret
-        alert 'winner'
-      else
-        alert i
+  secret = randomRange(1, number)
 
-  numberHtml = (makeNumberBox(e) for e in [1..number])
-  board = $("game-board")
-  alert board
-  alert numberHtml
-  board.html("hello world")
-  $('div', board).click( () -> alert "hello" )
+  numberHtml = ""
+  for e in [1..number]
+    numberHtml += makeNumberBox e
+  board = $("#game-board")
+  board.html(numberHtml)
 
+
+
+  numberClick = () ->
+    el = $(this)
+    i = parseInt(el.html())
+    if i == secret
+      sendMessage "You got it!"
+      el.addClass "right"
+    else
+      sendMessage makeResponse()
+      el.addClass "wrong"
+
+  $("div", board).click numberClick
 
 
 # Take an action when guess_choose_number is clicked.
-numberClick = () ->
+choiceClick = () ->
   n = parseInt($("#number_range").val())
   if isNaN n
-    alert n
     sendMessage "Please pick a number"
   else
     sendMessage n
@@ -64,7 +68,7 @@ randomClick = () ->
 
 # Create bindings for the game.
 $(document).ready ->
-  $("#guess_choose_number").click numberClick
+  $("#guess_choose_number").click choiceClick
   $("#guess_random").click randomClick
 
 
