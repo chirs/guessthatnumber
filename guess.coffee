@@ -1,6 +1,3 @@
-# Future game object
-game = null
-
 # Randomly select a number from a given range.
 randomRange = (start, end) -> Math.floor(start + (1 + end - start) * Math.random())
 
@@ -29,27 +26,27 @@ makeNumberBox = (n) ->
 # Generate an object representing the game.
 createGame = (number) ->
   secret = randomRange(1, number)
-
   numberHtml = ""
   for e in [1..number]
     numberHtml += makeNumberBox e
   board = $("#game-board")
   board.html(numberHtml)
 
-
-
   numberClick = () ->
     el = $(this)
     i = parseInt(el.html())
-    if i == secret
-      sendMessage "You got it!"
-      el.addClass "right"
-    else
-      sendMessage makeResponse()
-      el.addClass "wrong"
+
+    if not el.hasClass "clicked"
+      el.addClass "clicked"
+      if i == secret
+        sendMessage "You got it!"
+        el.addClass "right"
+        $("div", board).addClass("clicked")
+      else
+        sendMessage makeResponse()
+        el.addClass "wrong"
 
   $("div", board).click numberClick
-
 
 # Take an action when guess_choose_number is clicked.
 choiceClick = () ->
