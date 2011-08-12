@@ -29,7 +29,6 @@ createGame = (number) ->
   numberHtml = ""
   for e in [1..number]
     numberHtml += makeNumberBox e
-  setup = $("#game-setup")
   board = $("#game-board")
   board.html(numberHtml)
 
@@ -43,30 +42,43 @@ createGame = (number) ->
         sendMessage "You got it!"
         el.addClass "right"
         $("div", board).addClass("clicked")
-        $("#game-setup").show()
+        unhideSetup()
       else
         sendMessage makeResponse()
         el.addClass "wrong"
 
   $("div", board).click numberClick
 
+showBoard = () ->
+  $("#game-setup").css('visibility', 'hidden')
+  $("#board-wrapper").fadeTo(0, 1)
+  $("#board-wrapper").css('visiblity', 'visible')
+  sendMessage "Guess a number"
+
+unhideSetup = () ->
+  $("#board-wrapper").fadeTo(0, 0.1)
+  $("#game-setup").css("visibility", "visible")
+
+
 # Take an action when guess_choose_number is clicked.
 choiceClick = () ->
-  $("#game-setup").hide()
+  showBoard()
   n = parseInt($("#number_range").val())
   if isNaN n
     sendMessage "Please pick a number"
   else
     createGame n
 
+
 # Take an action when guess_random is clicked.
 randomClick = () ->
-    $("#game-setup").hide()
+    showBoard()
     n = randomRange(10, 1000)
     createGame n
 
 # Create bindings for the game.
 $(document).ready ->
+
   $("#start_choose_number").click choiceClick
   $("#start_random").click randomClick
 
