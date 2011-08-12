@@ -7,6 +7,7 @@
   <meta name="verify-v1" content="ES7MT4WW7ZSsA5/BJKdhUjxWnzEkJL8E0UdRHLlL9Yo=" />
   <meta name="description" content="A website about websites and other stuff." />
 
+  <link href="http://fonts.googleapis.com/css?family=Yellowtail|Gentium+Basic" rel="stylesheet" type="text/css" >
   <link rel="stylesheet" type="text/css" href="style.css" />
 
   <script type="text/javascript" src="http://www.google.com/jsapi"></script>
@@ -17,26 +18,21 @@
 
 
 <body class="home">
-  <div class="container">
-    <h1>Guess That Number</h1>
+  <div id="title">Guess That Number</div>
 
-    <div id="game-setup">
-      <p>How many numbers?</p>
-      <p>
-		<input id="number_range" type="text"></input>
-		<input id="start_choose_number" type="submit" value="that many"></input>
-		<input id="start_random" type="submit" value="random"></input>
-	  </p>
-    </div>
+  <div id="message">How many numbers?</div>
+  <div id="game-board"></div>
+  <div class='clear-both'></div>
     
-    <div id="message"></div>
-    
-    <div id="game-board">
-    </div>
-
-
+  <div id="game-setup">
+    <p><input id="number_range" type="text"></input></p>
+	<p>
+	  <input id="start_choose_number" type="submit" value="that many"></input>
+	  <input id="start_random" type="submit" value="random"></input>
+	</p>
   </div>
-  
+
+
 <script type="text/javascript">
 
   var _gaq = _gaq || [];
