@@ -42,6 +42,7 @@ createGame = (number) ->
         sendMessage "You got it!"
         el.addClass "right"
         $("div", board).addClass("clicked")
+        $("div", board).unbind("click")
         unhideSetup()
       else
         sendMessage makeResponse()
