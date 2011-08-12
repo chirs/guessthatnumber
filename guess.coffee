@@ -65,8 +65,8 @@ randomClick = () ->
 
 # Create bindings for the game.
 $(document).ready ->
-  $("#guess_choose_number").click choiceClick
-  $("#guess_random").click randomClick
+  $("#start_choose_number").click choiceClick
+  $("#start_random").click randomClick
 
 
 
