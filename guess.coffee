@@ -11,7 +11,12 @@ makeResponse = () ->
    	"Try again!",
    	"Sadly, no.",
    	"Why can't you find it?",
-   	"Guess again",
+   	"Guess again?",
+    "Don't give up!",
+    "It's here somewhere.",
+    "It's got to be here somewhere."
+    "Can you find it?",
+    "Wrong again.",
   ]
   choices[randomRange(0, choices.length)]
 
@@ -43,7 +48,8 @@ createGame = (number) ->
         el.addClass "right"
         $("div", board).addClass("clicked")
         $("div", board).unbind("click")
-        unhideSetup()
+        #unhideSetup()
+        $("#play-again").show();
       else
         sendMessage makeResponse()
         el.addClass "wrong"
@@ -55,6 +61,10 @@ showBoard = () ->
   $("#board-wrapper").fadeTo(0, 1)
   $("#board-wrapper").css('visiblity', 'visible')
   sendMessage "Guess a number"
+
+$("#play-again").click () -> console.log "this"
+$("#play-again").click()
+
 
 unhideSetup = () ->
   $("#board-wrapper").fadeTo(0, 0.1)

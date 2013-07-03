@@ -19,6 +19,23 @@ body {
 	padding: 0;
 }
 
+/* A field to send messages to the user. */
+#message {
+    position: fixed;
+	height: 50px;
+	font-size: 2.5em;
+    text-align: center;
+    width: 100%;
+    //background-color: #fff;
+    background-color: #eee;
+    border: 5px solid black;
+}
+
+#game {
+    padding-top: 50px;
+}
+
+
 /* Set up the game by picking what numbers to play with. */
 #game-setup {
 	z-index: 2;
@@ -47,9 +64,11 @@ body {
 #board-wrapper {
 	position: absolute;
 	top: 0;
+    width: 100%;
 }
 
 #game-board {
+    padding-top: 70px;
     cursor: pointer;
     text-align: center;
 	margin: 0 auto;
@@ -74,9 +93,18 @@ body {
     background-color: red;
 }
 
-/* A field to send messages to the user. */
-#message {
-	height: 30px;
-	font-size: 2.5em;
-	padding-bottom: 20px;
+#playagain {
+    display: none;
+    cursor: pointer;
+    font-size: 3em;
+    border: 30px solid #fff;
+    height: 200px;
+    background-color: red;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    width: 400px;
+    margin-left: -200px;
+    padding-top: 100px;
+    z-inde: 3;
 }
