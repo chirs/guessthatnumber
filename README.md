@@ -1,9 +1,11 @@
-This is a really simple game, written in coffeescript.
 
-Here's how it works.
+### Guess that number
 
-You select a number of numbers to choose from (or have one randomly selected).
+A very simple game written in javascript.
 
-Then you guess until you get the number.
+Here's how it works:
 
-No hints will be given. Just keep guessing.
+* Pick how many numbers you want.
+* Now, guess until you get the number.
+* When you guess right, you win!
+

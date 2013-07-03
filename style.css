@@ -1,71 +1,69 @@
-/* Guess that number */
+html, body {
+    margin: 0;
+    padding: 0
+}
 
 body {
-	text-align: center;
-	font-family: 'Gentium Basic', serif;
+    font-family: monospace;
 }
 
-
-.clear-both {
-	clear: both;
-}
-
-
-#title {
-	font-size: 8em;
-	font-family: 'Yellowtail', cursive;
-	text-align: center;
-	margin: 0;
-	padding: 0;
-}
-
-/* A field to send messages to the user. */
 #message {
-    position: fixed;
-	height: 50px;
-	font-size: 2.5em;
-    text-align: center;
+    background-color: #fff;
     width: 100%;
-    //background-color: #fff;
-    background-color: #eee;
+    position: fixed;
+    height: 50px;
+    text-align: center;
+    font-size: 2em;
+    }
+
+#menu {
+    position: absolute; 
+    background-color: #ddd;
+    width: 400px;
+    margin-left: -200px;
+    left: 50%;
+    top: 20%;
+    text-align: center;
+}
+
+#game-board {
+    position: absolute;
+    padding-top: 100px;
+    z-index: 3;
+    width: 300px;
+}
+
+.wrong {
+    background-color: red;
+}
+
+.right {
+    background-color: green;
+}
+
+.guess {
+    margin: 0;
+    font-size: 3em;
+    padding: 30px;
     border: 5px solid black;
 }
 
-#game {
-    padding-top: 50px;
+#play-again {
+    position: absolute;
+    text-align: center;
+    background-color: #ccc;
+    font-size: 3em;
+    width: 500px;
+    left: 50%;
+    margin-left: -250px;
+    top: 50%;
+    height: 80px;
+    padding: 50px 0;
+    z-index: 200;
+    display: none;
 }
 
 
-/* Set up the game by picking what numbers to play with. */
-#game-setup {
-	z-index: 2;
-}
-
-#game-setup p {
-	font-size: 1.3em;
-}
-
-#game-setup input {
-	font-size: 1.3em;
-	height: 40px;
-}
-
-#game-setup input#guess_number {
-	width: 90px;
-	margin-right: 10px;
-}
-
-#how-many {
-	font-size: 2.5em;
-}
-
-/* Actual game board styles. */
-
-#board-wrapper {
-	position: absolute;
-	top: 0;
-    width: 100%;
-}
 
 #game-board {
     padding-top: 70px;
@@ -75,36 +73,11 @@ body {
 	width: 100%;
 }
 
-#game-board div.some-number {
+#game-board span.guess {
     border: 1px solid black;
 	font-size: 2em;
 	height: 50px;
     width: 85px;
     padding: 3px 0;
 	display: inline-block;
-}
-
-#game-board div.wrong {
-    background-color: #ccc;
-}
-
-#game-board div.right {
-    color: white;
-    background-color: red;
-}
-
-#playagain {
-    display: none;
-    cursor: pointer;
-    font-size: 3em;
-    border: 30px solid #fff;
-    height: 200px;
-    background-color: red;
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    width: 400px;
-    margin-left: -200px;
-    padding-top: 100px;
-    z-inde: 3;
 }
