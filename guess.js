@@ -79,12 +79,11 @@
   };
 
   var choiceClick = function() {
-    showBoard();
     var n = parseInt($("#number_range").val());
     if (isNaN(n)) {
       return sendMessage("Please pick a number");
     } else {
-
+      showBoard();
       sendMessage("good luck!");
       return createGame(n);
     }
@@ -105,5 +104,14 @@
     $("#start_choose_number").click(choiceClick);
     $("#start_random").click(randomClick);
     $("#play-again").click(unhideMenu);
+    $("input:text:visible:first").focus();
+
+    $('input').keypress(function (e) {
+      console.log(e.which);
+      if (e.which == 13) {
+        $('#start_choose_number').click();
+      }
+    });
+
   });
 }).call(this);
