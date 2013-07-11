@@ -89,6 +89,12 @@
     }
   };
 
+  // For automatically playing a game.
+  var autoPlay = function(){
+    var rc = function () { return Math.floor(Math.random() * 1000); }
+    setInterval(function() { $(".guess").not($(".wrong"))[rc()].click()}, 50)
+  };
+
   var randomClick = function() {
     showBoard();
     return createGame(randomRange(10, 1000));
