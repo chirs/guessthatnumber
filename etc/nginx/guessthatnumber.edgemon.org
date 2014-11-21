@@ -1,0 +1,12 @@
+
+server {
+
+            listen   80;
+            server_name guessthatnumber.edgemon.org;
+
+            location / {
+                        root   /home/chris/www/guessthatnumber/src/;
+                        index  index.html;
+                        }
+
+}
