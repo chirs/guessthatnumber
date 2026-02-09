@@ -5,7 +5,7 @@ server {
             server_name guessthatnumber.edgemon.org;
 
             location / {
-                        root   /home/chris/www/guessthatnumber/src/;
+                        root   /home/chris/www/guessthatnumber/www/;
                         index  index.html;
                         }
 
