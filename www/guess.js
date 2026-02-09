@@ -46,7 +46,7 @@
     secret = randomRange(1, number);
     var html = ""
     for (var i=1; i <= number; i++){
-      html += '<span class="guess" val="' + i + '" >' + i + '</span>';
+      html += `<span class="guess" val="${i}">${i}</span>`;
     }
     $("#game-board").html(html);
     $(".guess").click(function(){
