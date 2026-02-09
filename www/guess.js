@@ -28,7 +28,7 @@
   ];
 
   var makeResponse = function(lst) {
-    return lst[randomRange(0, lst.length)];
+    return lst[randomRange(0, lst.length - 1)];
   };
 
   var sendMessage = function(message) {
@@ -41,7 +41,7 @@
 
   var createGame = function(number) {
     $("#game-board").show();
-    var board, e, numberClick, numberHtml, secret;
+      var secret;
     
     secret = randomRange(1, number);
     var html = ""
@@ -55,7 +55,7 @@
       if (i === secret){
         sendMessage(makeResponse(winning));
         $(this).addClass("right");
-        $(".guess", board).unbind("click");
+        $(".guess").unbind("click");
         $("#play-again").show()
       } else {
         $(this).unbind("click");
