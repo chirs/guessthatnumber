@@ -35,13 +35,9 @@
     return $("#message").html(message);
   };
 
-  var makeNumberBox = function(n) {
-    return "<span class='some-number'>" + n + "</span>";
-  };
-
   var createGame = function(number) {
     $("#game-board").show();
-      var secret;
+    var secret;
     
     secret = randomRange(1, number);
     var html = ""
@@ -72,7 +68,6 @@
   };
 
   var unhideMenu = function() {
-    console.log("this");
     $("#menu").css("visibility", "visible");
     $("#game-board").hide();
     $("#play-again").hide()
@@ -92,7 +87,7 @@
   // For automatically playing a game.
   var autoPlay = function(){
     var rc = function () { return Math.floor(Math.random() * 1000); }
-    setInterval(function() { $(".guess").not($(".wrong"))[rc()].click()}, 50)
+    setInterval(function() { $(".guess").not(".wrong")[rc()].click()}, 50)
   };
 
   var randomClick = function() {
@@ -102,8 +97,20 @@
 
   // Stub out a better game object.
   var Game = function(number){
+    this.number = number;
     this.secret = randomRange(1, number);
+    this.guesses = new Set();
+
     this.board = $("#game-board");
+  }
+
+  Game.prototype.makeGuess = function(n) {
+    this.guesses.add(n)
+    return (n === this.secret)
+  }
+
+  Game.prototype.isComplete = function(){
+    return this.guesses.has(this.secret);
   }
 
   $(document).ready(function() {
