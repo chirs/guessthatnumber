@@ -3,7 +3,7 @@
     var makeResponse = GameModule.makeResponse;
     var missingResponses = GameModule.missingResponses;
     var hittingResponses = GameModule.hittingResponses;
-    var game = GameModule.Game; 
+    var Game = GameModule.Game; 
 
     var sendMessage = function(message) {
 	return $("#message").html(message);
@@ -12,7 +12,8 @@
     var createGame = function(number) {
 	$("#game-board").show();
 
-	var game = Game(number);
+	const game = new Game(number);
+	console.log(game);
 	
 	var html = "";
 	for (var i=1; i <= number; i++){
@@ -24,14 +25,14 @@
 	    var i = parseInt($(this).html());
 	    
 	    if (i === game.secret){
-		sendMessage(makeResponse(winningResponses));
+		sendMessage(makeResponse(hittingResponses));
 		$(this).addClass("right");
 		$(".guess").unbind("click");
 		$("#play-again").show()
 	    } else {
 		$(this).unbind("click");
 		$(this).addClass("wrong");
-		sendMessage(makeResponse(missResponses));
+		sendMessage(makeResponse(missingResponses));
 	    }
 	});
 	

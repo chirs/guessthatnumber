@@ -30,23 +30,28 @@ var GameModule = (function() {
     var makeResponse = function(lst) {
 	return lst[randomRange(0, lst.length - 1)];
     };
+
+    class Game {
+        
+	
+	constructor(number) {
+	    this.number = number;
+	    this.secret = Math.floor(Math.random() * number) + 1;
+	    this.guesses = new Set();
+	}
+	
+	makeGuess(n) {
+	    this.guesses.add(n);
+	    return n === this.secret;
+	}
+	
+	isComplete() {
+	    return this.guesses.has(this.secret);
+	}
+    }
     
-    var Game = function(number) {
-	this.number = number;
-	this.secret = randomRange(1, number);
-	this.guesses = new Set();
-    };
     
-    Game.prototype.makeGuess = function(n) {
-	this.guesses.add(n);
-	return (n === this.secret);
-    };
-    
-    Game.prototype.isComplete = function() {
-	return this.guesses.has(this.secret);
-    };
-    
-    return { randomRange, makeResponse, Game, misses, winning };
+    return { randomRange, makeResponse, Game, missingResponses, hittingResponses };
 })();
 
 if (typeof module !== 'undefined' && module.exports) {
