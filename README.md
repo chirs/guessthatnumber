@@ -2,32 +2,25 @@
 
 The dumbest guessing game I can imagine.
 
+
 #### History
 
-While on a rickety bus ride from Delhi to Dharamsala with my friend Miryam, we made up this game to entertain ourselves and pass the time.
+Created on a rickety bus from Delhi to Dharamsala with Miryam to pass the time. This is what happens when you're bouncing around for 12 hours with no internet.
 
 
 #### Rules
 
-* Pick a number. There will be this many possible numbers.
-* Guess a number. If you're right, you win!
-* If you're wrong, guess again. 
-* Repeat until you get it right.
-* There are no clues.
+1. Pick how many numbers are in play
+2. Guess a number
+3. If wrong, guess again
+4. Repeat until correct
+5. There are no hints
+6. There is no strategy
+7. If you don't give up, you will eventually win. 
 
-#### setup
 
-Point nameservers to the correct IP address.
+#### Known Issues
 
-```
-sudo cp etc/nginx/guessthatnumber /etc/nginx/sites-available/guessthatnumber
-sudo ln -s /etc/nginx/sites-available/guessthatnumber /etc/nginx/sites-enabled/
-sudo /etc/init.d/nginx/reload
-```
+* Victory text doesn't update when guessing the final number
+* Not yet dumb enough
 
-Enjoy! 
-
-#### todo
-
-* Better reward when you guess right (doesn't update text if it's the last number)
-* Make it dumber somehow
