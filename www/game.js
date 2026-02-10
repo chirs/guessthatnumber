@@ -3,7 +3,7 @@ var GameModule = (function() {
 	return Math.floor(start + (1 + end - start) * Math.random());
     };
     
-    var missResponses = [
+    var missingResponses = [
 	"Not it!",
 	"Whoopsies!",
 	"Keep trying!",
@@ -19,7 +19,7 @@ var GameModule = (function() {
 	"Wrong again."
     ];
     
-    var winningResponses = [
+    var hittingResponses = [
 	"You found it!",
 	"Great job!",
 	"There it is!",
