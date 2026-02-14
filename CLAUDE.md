@@ -17,8 +17,6 @@ sudo ln -s /etc/nginx/sites-available/guessthatnumber /etc/nginx/sites-enabled/
 sudo /etc/init.d/nginx reload
 ```
 
-Note: The Nginx config still references `src/` as the root directory but files now live in `www/`.
-
 ## Architecture
 
 Three static files in `www/`:
@@ -26,7 +24,3 @@ Three static files in `www/`:
 - **index.html** — XHTML 1.0 Strict page; loads jQuery 2.0.2 from CDN and includes Google Analytics
 - **style.css** — Layout and visual states (`.wrong` = red/incorrect, `.right` = green/correct)
 - **guess.js** — All game logic in an IIFE; key functions: `createGame(number)` builds the clickable grid, `randomRange(start, end)` picks the secret number, `autoPlay()` is an easter egg that auto-clicks
-
-## Known Issues
-
-- Reward text doesn't update if the last number is guessed (noted in README TODO)
