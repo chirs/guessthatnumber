@@ -7,7 +7,6 @@ Things that could be improved, roughly in order of how much they bother me.
 
 ### Should Fix
 
-* **jQuery loaded over HTTP** — `index.html` loads jQuery 2.0.2 from `http://`, which modern browsers will block on HTTPS pages
 * **Google Analytics is dead** — uses Universal Analytics (`UA-` tracking ID), which Google shut down in 2023
 * **No input validation** — entering 0, negative numbers, or 100000 all "work" with varying degrees of chaos
 * **Nginx config points to `src/` instead of `www/`** — noted in CLAUDE.md, hasn't been updated since the directory rename
