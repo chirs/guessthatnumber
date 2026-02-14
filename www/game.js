@@ -36,7 +36,11 @@ var GameModule = (function() {
 	
 	constructor(number) {
 	    this.number = number;
-	    this.secret = Math.floor(Math.random() * number) + 1;
+	    if (number < 0) {
+		this.secret = randomRange(number, -1);
+	    } else {
+		this.secret = Math.floor(Math.random() * number) + 1;
+	    }
 	    this.guesses = new Set();
 	}
 	

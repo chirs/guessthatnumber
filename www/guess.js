@@ -12,11 +12,24 @@
     var createGame = function(number) {
 	$("#game-board").show();
 
+	if (number === 0) {
+	    $("#game-board").html("");
+	    sendMessage(makeResponse(hittingResponses));
+	    $("#play-again").show();
+	    return;
+	}
+
 	const game = new Game(number);
 
 	var html = "";
-	for (var i=1; i <= number; i++){
-	    html += `<span class="guess" val="${i}">${i}</span>`;
+	if (number < 0) {
+	    for (var i=number; i <= -1; i++){
+		html += `<span class="guess" val="${i}">${i}</span>`;
+	    }
+	} else {
+	    for (var i=1; i <= number; i++){
+		html += `<span class="guess" val="${i}">${i}</span>`;
+	    }
 	}
 	$("#game-board").html(html);
 	
