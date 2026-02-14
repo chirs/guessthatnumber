@@ -13,8 +13,7 @@
 	$("#game-board").show();
 
 	const game = new Game(number);
-	console.log(game);
-	
+
 	var html = "";
 	for (var i=1; i <= number; i++){
 	    html += `<span class="guess" val="${i}">${i}</span>`;
@@ -86,7 +85,6 @@
 	$("input:text:visible:first").focus();
 	
 	$('input').keypress(function (e) {
-	    console.log(e.which);
 	    if (e.which == 13) {
 		$('#start_choose_number').click();
 	    }
