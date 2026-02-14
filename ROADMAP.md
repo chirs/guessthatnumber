@@ -4,7 +4,6 @@ Things that could be improved, roughly in order of how much they bother me.
 
 ### Bugs
 
-* **`autoPlay()` easter egg is broken** — picks a random index up to 999 regardless of how many guesses are on the board, so it usually tries to click an element that doesn't exist
 
 ### Should Fix
 
