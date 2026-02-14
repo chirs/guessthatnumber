@@ -21,6 +21,5 @@ Created on a rickety bus from Delhi to Dharamsala with Miryam to pass the time. 
 
 #### Known Issues
 
-* Victory text doesn't update when guessing the final number
 * Not yet dumb enough
 

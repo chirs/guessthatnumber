@@ -32,7 +32,15 @@
 	    } else {
 		$(this).unbind("click");
 		$(this).addClass("wrong");
-		sendMessage(makeResponse(missingResponses));
+		var remaining = $(".guess").not(".wrong").not(".right");
+		if (remaining.length === 1) {
+		    sendMessage(makeResponse(hittingResponses));
+		    remaining.addClass("right");
+		    $(".guess").unbind("click");
+		    $("#play-again").show();
+		} else {
+		    sendMessage(makeResponse(missingResponses));
+		}
 	    }
 	});
 	
