@@ -1,5 +1,6 @@
 var assert = require('assert');
 var { randomRange, makeResponse, Game } = require('./game');
+var { beats, beatFor, km } = require('./miryam');
 
 // randomRange tests
 (function testRandomRangeReturnsWithinBounds() {
@@ -63,6 +64,40 @@ var { randomRange, makeResponse, Game } = require('./game');
   game.makeGuess(game.secret);
   assert.strictEqual(game.isComplete(), true);
   console.log('PASS: isComplete reflects whether secret has been guessed');
+})();
+
+// Miryam tests
+(function testBeatsAreNonEmpty() {
+  assert(beats.length > 0, 'there should be beats');
+  beats.forEach(function(b) {
+    assert(typeof b === 'string' && b.trim().length > 0, 'no blank beats');
+  });
+  console.log('PASS: beats are non-empty strings');
+})();
+
+(function testBeatForEndpoints() {
+  assert.strictEqual(beatFor(1, km), 0);
+  assert.strictEqual(beatFor(km, km), beats.length - 1);
+  assert.strictEqual(beatFor(km - 1, km), beats.length - 1);
+  console.log('PASS: beatFor starts at the first beat and ends at the last');
+})();
+
+(function testBeatForMonotonicAndInRange() {
+  var last = 0;
+  for (var i = 1; i <= km; i++) {
+    var b = beatFor(i, km);
+    assert(b >= 0 && b < beats.length, 'beat index in range');
+    assert(b >= last, 'beat index never goes backwards');
+    last = b;
+  }
+  console.log('PASS: beatFor is monotonic and in range');
+})();
+
+(function testBeatForTinyBoards() {
+  assert.strictEqual(beatFor(1, 1), 0);
+  assert.strictEqual(beatFor(1, 2), 0);
+  assert.strictEqual(beatFor(2, 2), beats.length - 1);
+  console.log('PASS: beatFor handles one- and two-tile boards');
 })();
 
 console.log('\nAll tests passed!');
