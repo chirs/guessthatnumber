@@ -68,6 +68,7 @@
     // Ask the road if it's this number. It says yes or no. It doesn't matter.
     var ask = function() {
 	if (elapsed >= M.minutes) return;
+	$(this).addClass("asked");
 	elapsed = Math.min(M.minutes, elapsed + randomRange(M.slice.min, M.slice.max));
 	moveBus();
 
@@ -83,6 +84,7 @@
     // Back at the stand in Delhi, engine running.
     var deal = function() {
 	$("#play-again").hide();
+	$("#pad .n").removeClass("asked");
 	elapsed = 0;
 	moveBus();
 	sendMessage(M.departure);

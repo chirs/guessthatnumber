@@ -99,6 +99,7 @@ body {
     fill: #ff9933;
     stroke: #fff;
     stroke-width: 2;
+    transition: cy 0.6s ease-out;
 }
 
 #track .togo {
@@ -106,6 +107,7 @@ body {
     fill: #555;
     text-anchor: end;
     font-variant-numeric: tabular-nums;
+    transition: y 0.6s ease-out;
 }
 
 /* The pad: a hundred numbers, always ready. */
@@ -144,6 +146,19 @@ body {
 }
 
 .n:active {
+    background-color: #ff9933;
+    border-color: #ff9933;
+    color: #1a1a2e;
+}
+
+/* Asked. Still live, the road just doesn't remember. */
+.n.asked {
+    background-color: #efe6d8;
+    border-color: #b89b7a;
+    color: #8a6d4f;
+}
+
+.n.asked:active {
     background-color: #ff9933;
     border-color: #ff9933;
     color: #1a1a2e;

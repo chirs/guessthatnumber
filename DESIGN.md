@@ -19,8 +19,8 @@ was yes or no. The only ending is arrival.
 ## The Game
 
 - **Yes or no** — click a number. The road says "Yes." or "No." by coin
-  flip. There is no secret number. Yes ends nothing. The same number asked
-  again gets a fresh coin
+  flip. There is no secret number. Yes ends nothing. The number browns out
+  but stays live; asked again it gets a fresh coin
 - **Every question costs road** — `slice` in `miryam.js`: between 5 and 30
   minutes of the 600, at random, 5% of the ride at most. A ride is about
   thirty-five questions but nobody
@@ -52,10 +52,12 @@ Modern map, not an old one. The bus was 2007.
   bottom, McLeod Ganj at the top, the towns as white knots at their true
   share of the road. Chandigarh is about halfway and the hill towns crowd
   the top; the labels are nudged apart, the knots are not. Saffron bus dot
-  with a white ring climbs the line, kilometres to go beside it
+  with a white ring eases up the line on every question, kilometres to go
+  beside it
 - **Pad** — a hundred numbers in navy-ringed white squares, always live,
-  ten across against the right edge.
-  Saffron while pressed. They never flip, because nothing is hidden
+  ten across against the right edge. Saffron while pressed, browned out
+  once asked. Still live: nothing is hidden, and asking again gets a fresh
+  coin. Back to Delhi clears them
 - **Chrome** — system sans-serif. Message bar full width on top, clock top
   right, arrival overlay centered. Panels white with a hairline border
 - **Palette** — navy `#1f3a93` road, saffron `#ff9933` bus, India green
