@@ -22,10 +22,11 @@ was yes or no. The only ending is arrival.
   flip. There is no secret number. Yes ends nothing. The number browns out
   but stays live; asked again it gets a fresh coin
 - **Every question costs road** — `slice` in `miryam.js`: between 5 and 30
-  minutes of the 600, at random, 5% of the ride at most. A ride is about
-  thirty-five questions but nobody
-  knows. Clock follows the minutes, bus follows the clock, kilometres to go
-  follow the bus
+  minutes of the 600, at random, 5% of the ride at most. About 1 in 6
+  questions (`setback`) spends that slice going backwards instead, never
+  past Delhi, with a line from `setbacks` in place of the beat. A ride is
+  about fifty questions but nobody knows. Clock follows the minutes, bus
+  follows the clock, kilometres to go follow the bus
 - **The road talks** — after the answer comes a beat from `beats`, picked by
   `beatAt` from how far along the ride is, so the last one lands as the bus
   climbs into the hills. Fast rides skip beats. That's fine

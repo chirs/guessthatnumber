@@ -6,6 +6,9 @@ var MiryamModule = (function() {
     // How much of the ride one question uses up, in minutes. Nobody knows.
     var slice = { min: 5, max: 30 };
 
+    // Some questions send the bus backwards instead. This is how often.
+    var setback = 1 / 6;
+
     // The road answers. It isn't listening.
     var answers = ["Yes.", "No."];
 
@@ -56,6 +59,16 @@ var MiryamModule = (function() {
     ];
 
     var arrival = "McLeod Ganj. We're here.";
+
+    // What the road says when the bus goes backwards.
+    var setbacks = [
+	"Wrong turn at the bypass. The driver reverses through oncoming traffic.",
+	"Puncture. Everyone out. The spare is flatter than the tyre.",
+	"The conductor left someone at the dhaba. We go back for him.",
+	"Checkpoint. Papers. A long conversation, then a longer one.",
+	"Road closed. The detour goes through a village that is asleep.",
+	"The engine dies on a hill. We roll back to where it's flat."
+    ];
 
     // The towns the bus goes through, for the labels on the map.
     var towns = [
@@ -137,8 +150,8 @@ var MiryamModule = (function() {
 	return along[best] / along[along.length - 1];
     };
 
-    return { minutes, slice, answers, departure, beats, arrival, towns,
-	     beatAt, clockFor, lengthKm, pointAt, fractionOf };
+    return { minutes, slice, setback, setbacks, answers, departure, beats,
+	     arrival, towns, beatAt, clockFor, lengthKm, pointAt, fractionOf };
 })();
 
 if (typeof module !== 'undefined' && module.exports) {

@@ -1,6 +1,6 @@
 var assert = require('assert');
 var { randomRange, makeResponse, Game } = require('./game');
-var { beats, beatAt, minutes, slice, clockFor, lengthKm, pointAt, fractionOf, towns } = require('./miryam');
+var { beats, beatAt, minutes, slice, setback, setbacks, clockFor, lengthKm, pointAt, fractionOf, towns } = require('./miryam');
 var RouteData = require('./route');
 
 // randomRange tests
@@ -98,6 +98,13 @@ var RouteData = require('./route');
   assert(slice.min > 0 && slice.max > slice.min, 'slice is a range');
   assert(slice.max <= minutes / 20, 'no single question eats more than 5% of the ride');
   console.log('PASS: a question uses between ' + slice.min + ' and ' + slice.max + ' minutes');
+})();
+
+(function testSetbacksAreRareAndHaveWords() {
+  assert(setback > 0 && setback < 0.5, 'the bus mostly goes forward');
+  assert(setbacks.length >= 3, 'enough setbacks not to repeat at once');
+  setbacks.forEach(function(s) { assert(typeof s === 'string' && s.length > 0, 'setback has words'); });
+  console.log('PASS: about 1 in ' + Math.round(1 / setback) + ' questions sends the bus back');
 })();
 
 (function testClockRunsEightToSix() {

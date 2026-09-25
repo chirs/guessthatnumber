@@ -73,7 +73,9 @@
     var ask = function() {
 	if (elapsed >= M.minutes) return;
 	$(this).addClass("asked");
-	elapsed = Math.min(M.minutes, elapsed + randomRange(M.slice.min, M.slice.max));
+	var cost = randomRange(M.slice.min, M.slice.max);
+	var back = Math.random() < M.setback;
+	elapsed = back ? Math.max(0, elapsed - cost) : Math.min(M.minutes, elapsed + cost);
 	moveBus();
 
 	if (elapsed >= M.minutes) {
@@ -82,7 +84,9 @@
 	    return;
 	}
 	var answer = M.answers[Math.floor(Math.random() * M.answers.length)];
-	sendMessage(answer + " " + M.beats[M.beatAt(elapsed / M.minutes)]);
+	var line = back ? M.setbacks[Math.floor(Math.random() * M.setbacks.length)]
+			: M.beats[M.beatAt(elapsed / M.minutes)];
+	sendMessage(answer + " " + line);
     };
 
     // Back at the stand in Delhi, engine running.
