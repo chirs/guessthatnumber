@@ -1,41 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Guess That Number</title>
-  <meta name="description" content="Delhi to McLeod Ganj. Ten hours. Guess." />
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@800&family=Mukta:wght@400;600;700&display=swap" />
-  <link rel="stylesheet" href="style.css" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="verify-v1" content="ES7MT4WW7ZSsA5/BJKdhUjxWnzEkJL8E0UdRHLlL9Yo=" />
+  <meta name="description" content="A simple game." />
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-  <script src="game.js"></script>
-  <script src="route.js"></script>
-  <script src="miryam.js"></script>
-  <script src="guess.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+  <link rel="stylesheet" type="text/css" href="style.css" />
+
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <script type="text/javascript" src="route.js"></script>
+  <script type="text/javascript" src="game.js"></script>
+  <script type="text/javascript" src="guess.js"></script>
+
 </head>
 
-<body class="start">
-
-  <header id="top">
-    <div id="title">Guess That Number</div>
-    <div id="message"></div>
-    <div id="clock"></div>
-  </header>
-
-  <div id="start">
-    <div id="ask"></div>
-    <div class="stepper"><span class="step" data-by="-1">&minus;</span><span id="howmany"></span><span class="step" data-by="1">+</span><span id="go">&#10003;</span></div>
-  </div>
+<body class="home">
 
   <div id="map"></div>
 
-  <div id="pad"></div>
+  <div id="message">welcome!</div>
+  <div id="game-board"></div>
+  <div id="play-again">play again</div>
 
-  <div id="play-again">back to delhi</div>
+
+  <div id="menu">
+    <h2>Guess That Number</h2>
+    <div>How many?</div>
+    <p><input id="number_range" type="text"></input></p>
+	<p>
+	  <input id="start_choose_number" type="submit" value="_ numbers"></input>
+	  <input id="start_random" type="submit" value="random"></input>
+	</p>    
+  </div>
+
 
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -45,7 +48,7 @@
 
   ga('create', 'UA-370829-10', 'edgemon.org');
   ga('send', 'pageview');
+
 </script>
 
 </body>
-</html>

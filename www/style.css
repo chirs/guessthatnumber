@@ -1,155 +1,161 @@
-/* Plain and modern; the one motif is the road's own: the yellow-topped
-   National Highway milestone. See DESIGN.md. */
-:root {
-    --paper: #fafaf7;
-    --ink: #1d1d1b;
-    --muted: #6b6b66;
-    --line: rgba(29, 29, 27, 0.15);
-    --road: #d0021b;
-    --bus: #ff8c1a;
-    --milestone: #f2c200;
-}
-
 html, body {
     margin: 0;
     padding: 0;
 }
 
 body {
-    font-family: "Mukta", system-ui, sans-serif;
-    color: var(--ink);
-    background-color: var(--paper);
-}
-
-/* The band across the top: the title, then the question or the road talking. */
-#top {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 88px;
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    gap: 40px;
-    padding: 0 32px;
-    background-color: rgba(250, 250, 247, 0.96);
-    border-bottom: 1px solid var(--line);
-    z-index: 1000;
-}
-
-/* Heavy but fancy. */
-#title {
-    font-family: "Baloo 2", "Mukta", system-ui, sans-serif;
-    font-weight: 800;
-    font-size: 2.6em;
-    line-height: 1;
-    white-space: nowrap;
-}
-
-/* Before anything: how many. The whole game side, until you say. */
-#start {
-    display: none;
-    position: fixed;
-    left: 35%;
-    right: 0;
-    top: 88px;
-    bottom: 0;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 32px;
-    font-size: 3em;
-    z-index: 2;
-}
-
-#ask {
-    font-family: "Baloo 2", "Mukta", system-ui, sans-serif;
-    font-weight: 800;
-    font-size: 1.4em;
-    line-height: 1;
+    font-family: monospace;
+    background-color: #f2f2f8;
+    color: #1a1a2e;
 }
 
 #message {
-    flex: 1;
-    font-size: 1.25em;
-    line-height: 1.3;
-}
-
-body.start #start { display: flex; }
-body.start #message,
-body.start #clock,
-body.start #pad { display: none; }
-
-/* Where you say how many: minus, the count, plus, check. */
-.stepper {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
-
-#howmany {
-    min-width: 2.4em;
-    text-align: center;
-    font-weight: 700;
-    font-variant-numeric: tabular-nums;
-}
-
-.step, #go {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 1.6em;
-    height: 1.6em;
-    padding: 0 12px;
-    box-sizing: border-box;
-    border: 2px solid var(--ink);
-    border-radius: 6px;
     background-color: #fff;
-    font-weight: 700;
+    border-bottom: 1px solid #d8d8e4;
+    width: 100%;
+    position: fixed;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-size: 2em;
+    z-index: 100;
+}
+
+#menu {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #d8d8e4;
+    border-radius: 4px;
+    width: 400px;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 20%;
+    text-align: center;
+    padding: 20px;
+}
+
+#menu h2 {
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: normal;
+}
+
+#menu div,
+#menu p {
+    color: #6a6a80;
+    margin: 12px 0;
+}
+
+#number_range {
+    background-color: #f2f2f8;
+    border: 1px solid #d8d8e4;
+    border-radius: 4px;
+    color: #1a1a2e;
+    font-family: monospace;
+    font-size: 1.2em;
+    padding: 6px 10px;
+    text-align: center;
+    transition: border-color 0.2s ease;
+}
+
+#number_range:focus {
+    outline: none;
+    border-color: #6c5ce7;
+}
+
+#start_choose_number,
+#start_random {
+    background-color: #e8e8f0;
+    border: 1px solid #d8d8e4;
+    border-radius: 4px;
+    color: #1a1a2e;
+    font-family: monospace;
+    font-size: 1em;
+    padding: 8px 16px;
     cursor: pointer;
-    user-select: none;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
-#go {
-    margin-left: 8px;
-    background-color: var(--milestone);
+#start_choose_number:hover,
+#start_random:hover {
+    background-color: #6c5ce7;
+    border-color: #6c5ce7;
+    color: #fff;
 }
 
-.step:active, #go:active {
-    background-color: var(--bus);
+#game-board {
+    padding-top: 70px;
+    cursor: pointer;
+    text-align: center;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 900px;
 }
 
-#clock {
-    font-size: 1.1em;
-    color: var(--muted);
-    white-space: nowrap;
-    font-variant-numeric: tabular-nums;
+#game-board span.guess {
+    background-color: #e8e8f0;
+    border: 1px solid #d8d8e4;
+    color: #1a1a2e;
+    font-size: 2em;
+    height: 50px;
+    width: 85px;
+    padding: 3px 0;
+    display: inline-block;
+    transition: background-color 0.15s ease;
 }
 
-/* Underneath everything: the real map, faded. Only the route shouts. */
+#game-board span.guess:hover {
+    background-color: #dcdce8;
+}
+
+#game-board span.guess.wrong {
+    background-color: #f0c4ca;
+    color: #8a2d3b;
+}
+
+#game-board span.guess.wrong:hover {
+    background-color: #f0c4ca;
+}
+
+#game-board span.guess.right {
+    background-color: #c4f0e0;
+    color: #1a5c48;
+}
+
+#game-board span.guess.right:hover {
+    background-color: #c4f0e0;
+}
+
+#play-again {
+    position: fixed;
+    text-align: center;
+    background-color: #fff;
+    border: 2px solid #6c5ce7;
+    border-radius: 4px;
+    font-size: 3em;
+    width: 500px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    height: 80px;
+    padding: 50px 0;
+    z-index: 200;
+    display: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+#play-again:hover {
+    background-color: #6c5ce7;
+    color: #fff;
+}
+
+/* The road underneath everything, faded. */
 #map {
     position: fixed;
-    top: 88px;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    inset: 0;
     z-index: 0;
-    background-color: var(--paper);
-}
-
-/* The game's side of the line, shaded, there from the start. */
-body::before {
-    content: "";
-    position: fixed;
-    left: 35%;
-    right: 0;
-    top: 88px;
-    bottom: 0;
-    border-left: 1px solid var(--line);
-    background-color: rgba(29, 29, 27, 0.04);
-    z-index: 1;
-    pointer-events: none;
+    background-color: #f2f2f8;
 }
 
 #map .leaflet-tile-pane {
@@ -157,127 +163,15 @@ body::before {
     opacity: 0.35;
 }
 
-.leaflet-container {
-    font-family: inherit;
-}
-
 .leaflet-control-attribution {
     font-size: 9px;
 }
 
-/* The two ends of the road, named the way the signs name them. */
-.leaflet-tooltip.end {
-    padding: 2px 8px;
-    border: 1px solid var(--ink);
-    border-radius: 4px;
-    box-shadow: none;
-    font-size: 13px;
-    line-height: 1.25;
-    font-weight: 600;
-    color: var(--ink);
-    text-align: left;
-}
-
-.leaflet-tooltip.end::before {
-    display: none;
-}
-
-/* The pad: a square board, as big as fits right of the road. */
-#pad {
-    --square: min(calc(65vw - 48px), calc(100vh - 136px));
-    --side: 3;
-    --cell: calc(var(--square) / var(--side));
-    position: fixed;
-    left: calc(35vw + (65vw - var(--square)) / 2);
-    top: 112px;
-    width: var(--square);
-    height: var(--square);
+#menu {
     z-index: 1;
-    display: grid;
-    grid-template-columns: repeat(var(--side), minmax(0, 1fr));
-    grid-template-rows: repeat(var(--side), minmax(0, 1fr));
-    gap: calc(var(--cell) * 0.1);
 }
 
-/* Each number a milestone: rounded top in highway yellow, white below. */
-.n {
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    padding-bottom: calc(var(--cell) * 0.08);
-    box-sizing: border-box;
-    border-radius: 45% 45% 4px 4px / 30% 30% 4px 4px;
-    background: linear-gradient(var(--milestone) 0 30%, rgba(255, 255, 255, 0.8) 30%);
-    border: 2px solid var(--ink);
-    font-weight: 700;
-    font-size: calc(var(--cell) * var(--fit, 0.4));
-    line-height: 1;
-    cursor: pointer;
-    user-select: none;
-    transition: transform 0.1s ease;
-}
-
-.n:hover {
-    transform: scale(1.08);
-}
-
-.n:active {
-    background: var(--bus);
-}
-
-/* Asked. Wrong, and done with. */
-.n.asked {
-    background: linear-gradient(rgba(29, 29, 27, 0.12) 0 30%, rgba(255, 255, 255, 0.5) 30%);
-    border-color: rgba(29, 29, 27, 0.3);
-    color: rgba(29, 29, 27, 0.35);
-    cursor: default;
-}
-
-/* Arrival. */
-#play-again {
-    display: none;
-    position: fixed;
-    left: 67.5%;
-    top: calc(50% + 44px);
-    transform: translate(-50%, -50%);
-    white-space: nowrap;
-    padding: 40px 60px;
-    background-color: #fff;
-    border: 3px solid var(--ink);
-    border-radius: 12px;
-    font-size: 2em;
-    cursor: pointer;
-    z-index: 1000;
-    transition: background-color 0.2s ease;
-}
-
-#play-again:hover {
-    background-color: var(--milestone);
-}
-
-/* The right one. */
-.n.right {
-    background: linear-gradient(var(--milestone) 0 30%, var(--bus) 30%);
-    color: #fff;
-    cursor: default;
-}
-
-/* Winning: one big milestone. */
-#play-again .top {
-    display: block;
-    margin: -8px 0 16px;
-    font-family: "Mukta", system-ui, sans-serif;
-    font-size: 0.3em;
-    font-weight: 600;
-    text-align: center;
-}
-
-#play-again:has(.top) {
-    font-family: "Baloo 2", "Mukta", system-ui, sans-serif;
-    font-weight: 800;
-    font-size: 5em;
-    line-height: 1.1;
-    padding: 24px 72px 32px;
-    border-radius: 50% 50% 12px 12px / 30% 30% 12px 12px;
-    background: linear-gradient(var(--milestone) 0 34%, #fff 34%);
+#game-board {
+    position: relative;
+    z-index: 1;
 }

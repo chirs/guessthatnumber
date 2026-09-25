@@ -12,21 +12,18 @@ through it. You say how many numbers there are. One of us holds one
 of them, the other guesses, yes or no. We played for hours. Neither of us remembers how it ended. The Dalai
 Lama wasn't the plan. He just showed up.
 
-The site is that bus ride. The real road, a diagram of it, as many
-numbers as you say. Nobody holds a number here. The road says yes or no, the bus
-moves either way, and you arrive when the bus does.
+The road from that bus is in the background.
 
 
 #### Rules
 
-1. Say how many numbers there are
-2. Pick one
-3. The road says yes or no
-4. It isn't listening
-5. The bus moves either way
-6. There are no hints
-7. There is no strategy
-8. If you don't give up, you will eventually arrive.
+1. Pick how many numbers are in play
+2. Guess a number
+3. If wrong, guess again
+4. Repeat until correct
+5. There are no hints
+6. There is no strategy
+7. If you don't give up, you will eventually win. 
 
 
 #### Known Issues
