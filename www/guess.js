@@ -6,16 +6,33 @@
     var Game = GameModule.Game; 
 
     var sendMessage = function(message) {
-	return $("#message").html(message);
+	var bar = $("#message").html(message).removeClass("pop");
+	bar[0].offsetWidth; // restart the bounce
+	return bar.addClass("pop");
     };
     
+    // Play again takes over the button area: exactly where the buttons are,
+    // or the part of it you can see when the board scrolls.
+    var showPlayAgain = function() {
+	var board = $("#game-board")[0].getBoundingClientRect();
+	var buttons = $("#buttons")[0];
+	var r = buttons ? buttons.getBoundingClientRect() : board;
+	var top = Math.max(r.top, board.top), bottom = Math.min(r.bottom, board.bottom);
+	var width = r.width, height = Math.max(bottom - top, 120);
+	$("#play-again").css({
+	    left: r.left, top: top, width: width, height: height,
+	    fontSize: Math.min(48, height * 0.35, width * 0.12) + "px",
+	    display: "flex"
+	});
+    };
+
     var createGame = function(number) {
 	$("#game-board").show();
 
 	if (number === 0) {
 	    $("#game-board").html("");
 	    sendMessage(makeResponse(hittingResponses));
-	    $("#play-again").show();
+	    showPlayAgain();
 	    return;
 	}
 
@@ -31,7 +48,7 @@
 		html += `<span class="guess" val="${i}">${i}</span>`;
 	    }
 	}
-	$("#game-board").html(html);
+	$("#game-board").html('<div id="buttons">' + html + '</div>');
 	
 	$(".guess").click(function(){
 	    var i = parseInt($(this).html());
@@ -40,7 +57,7 @@
 		sendMessage(makeResponse(hittingResponses));
 		$(this).addClass("right");
 		$(".guess").unbind("click");
-		$("#play-again").show()
+		showPlayAgain();
 	    } else {
 		$(this).unbind("click");
 		$(this).addClass("wrong");
@@ -49,7 +66,7 @@
 		    sendMessage(makeResponse(hittingResponses));
 		    remaining.addClass("right");
 		    $(".guess").unbind("click");
-		    $("#play-again").show();
+		    showPlayAgain();
 		} else {
 		    sendMessage(makeResponse(missingResponses));
 		}
@@ -93,7 +110,12 @@
 	    maxZoom: 19
 	}).addTo(map);
 	L.polyline(road, { color: "#d0021b", weight: 5 }).addTo(map);
-	map.fitBounds(L.latLngBounds(road), { padding: [80, 80] });
+	// Kept to the left third of the screen, or behind everything on a phone.
+	var narrow = window.innerWidth < 700;
+	map.fitBounds(L.latLngBounds(road), {
+	    paddingTopLeft: [40, 80],
+	    paddingBottomRight: [narrow ? 40 : window.innerWidth * 0.65, 40]
+	});
     };
 
     // For automatically playing a game.
@@ -117,6 +139,11 @@
 	$("#start_random").click(randomClick);
 	$("#play-again").click(unhideMenu);
 	$("input:text:visible:first").focus();
+
+	// The button says what you typed, whatever it is.
+	$("#number_range").on("input", function() {
+	    $("#start_choose_number").val(($(this).val().trim() || "_") + " numbers");
+	});
 	
 	$('input').keypress(function (e) {
 	    if (e.which == 13) {

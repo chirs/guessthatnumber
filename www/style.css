@@ -9,25 +9,43 @@ body {
     color: #1a1a2e;
 }
 
+/* The game shouting, in a bar across the top. */
 #message {
-    background-color: #fff;
-    border-bottom: 1px solid #d8d8e4;
-    width: 100%;
     position: fixed;
-    height: 50px;
-    line-height: 50px;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 64px;
+    line-height: 64px;
     text-align: center;
-    font-size: 2em;
+    font-size: 2.2em;
+    font-weight: bold;
+    color: #fff;
+    background-color: #6c5ce7;
+    box-shadow: 0 2px 12px rgba(108, 92, 231, 0.35);
     z-index: 100;
+}
+
+/* Each new line lands with a bounce. */
+#message.pop {
+    animation: pop 0.35s ease-out;
+}
+
+@keyframes pop {
+    0% { transform: scale(1.12); }
+    60% { transform: scale(0.97); }
+    100% { transform: scale(1); }
 }
 
 #menu {
     position: absolute;
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.92);
     border: 1px solid #d8d8e4;
     border-radius: 4px;
+    box-sizing: border-box;
     width: 400px;
-    left: 50%;
+    max-width: calc(100vw - 32px);
+    left: 67.5%;
     transform: translateX(-50%);
     top: 20%;
     text-align: center;
@@ -83,62 +101,85 @@ body {
     color: #fff;
 }
 
+/* The right two-thirds, numbers in the middle of it; a big board scrolls
+   here, not the page. */
 #game-board {
-    padding-top: 70px;
+    position: fixed;
+    top: 72px;
+    left: 35%;
+    right: 16px;
+    bottom: 16px;
+    overflow-y: auto;
+    display: grid;
+    align-content: safe center;
+    justify-content: center;
     cursor: pointer;
-    text-align: center;
-    margin: 0 auto;
-    width: 100%;
-    max-width: 900px;
+    z-index: 1;
+}
+
+/* The button area: a panel that hugs the numbers. Play again fills it. */
+#buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px;
+    box-sizing: border-box;
+    background-color: rgba(255, 255, 255, 0.55);
+    border: 1px solid #d8d8e4;
+    border-radius: 12px;
 }
 
 #game-board span.guess {
-    background-color: #e8e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 85px;
+    height: 56px;
+    box-sizing: border-box;
+    background-color: rgba(255, 255, 255, 0.85);
     border: 1px solid #d8d8e4;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(26, 26, 46, 0.08);
     color: #1a1a2e;
     font-size: 2em;
-    height: 50px;
-    width: 85px;
-    padding: 3px 0;
-    display: inline-block;
-    transition: background-color 0.15s ease;
+    transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
 }
 
 #game-board span.guess:hover {
-    background-color: #dcdce8;
+    transform: translateY(-2px);
+    border-color: #6c5ce7;
+    box-shadow: 0 4px 10px rgba(108, 92, 231, 0.18);
 }
 
-#game-board span.guess.wrong {
-    background-color: #f0c4ca;
+#game-board span.guess.wrong,
+#game-board span.guess.wrong:hover {
+    transform: none;
+    background-color: rgba(240, 196, 202, 0.85);
+    border-color: #e8a8b1;
+    box-shadow: none;
     color: #8a2d3b;
 }
 
-#game-board span.guess.wrong:hover {
-    background-color: #f0c4ca;
-}
-
-#game-board span.guess.right {
+#game-board span.guess.right,
+#game-board span.guess.right:hover {
+    transform: none;
     background-color: #c4f0e0;
+    border-color: #7fd4b6;
+    box-shadow: 0 4px 14px rgba(26, 92, 72, 0.25);
     color: #1a5c48;
 }
 
-#game-board span.guess.right:hover {
-    background-color: #c4f0e0;
-}
-
+/* Sized and placed from guess.js to fill the button area. */
 #play-again {
     position: fixed;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
     text-align: center;
     background-color: #fff;
     border: 2px solid #6c5ce7;
-    border-radius: 4px;
-    font-size: 3em;
-    width: 500px;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    height: 80px;
-    padding: 50px 0;
+    border-radius: 12px;
     z-index: 200;
     display: none;
     cursor: pointer;
@@ -171,7 +212,29 @@ body {
     z-index: 1;
 }
 
-#game-board {
-    position: relative;
-    z-index: 1;
+/* Phones: everything full width, the road behind it all. */
+@media (max-width: 700px) {
+    #message {
+        font-size: 1.4em;
+    }
+
+    #menu {
+        left: 50%;
+    }
+
+    #game-board {
+        left: 8px;
+        right: 8px;
+    }
+
+    #buttons {
+        gap: 6px;
+        padding: 10px;
+    }
+
+    #game-board span.guess {
+        width: 56px;
+        height: 40px;
+        font-size: 1.4em;
+    }
 }

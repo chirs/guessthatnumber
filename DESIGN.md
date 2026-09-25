@@ -26,17 +26,20 @@ Monospace everywhere. The title is uppercase with `0.15em` letter-spacing, norma
 
 ### Layout
 
-- **Background** — the road from Delhi to Dharamsala, where the game was invented, on OpenStreetMap tiles via Leaflet 1.9: full screen behind everything, tiles greyed and faded, the route in red `#d0021b`. Fitted to the whole route, not for touching. `route.js` holds the route, baked from OSRM
-- **Message bar** — fixed at top, 50px tall, full width, z-index 100
-- **Menu panel** — centered (400px wide, `translateX(-50%)`), positioned at 20% from top
-- **Game board** — fluid width, max 900px, centered, 70px top padding to clear the message bar
-- **Play-again overlay** — fixed center (`translate(-50%, -50%)`), 500px wide, z-index 200
+- **Background** — the road from Delhi to Dharamsala, where the game was invented, on OpenStreetMap tiles via Leaflet 1.9: full screen behind everything, tiles greyed and faded, the route in red `#d0021b`, fitted into the left third. Not for touching. `route.js` holds the route, baked from OSRM
+- **The game's side** — everything else lives in the right two-thirds, beside the road rather than on it
+- **Message bar** — loud on purpose: full width across the top, 64px, violet `#6c5ce7` with big bold white text, z-index 100. Every new line bounces in
+- **Menu panel** — centred on the game's side (400px, never wider than the screen), 20% from the top, a little see-through
+- **Button area** — the numbers live in a soft rounded panel (`#buttons`) that hugs them, centred on the game's side with 8px gaps; a board too big to fit starts at the top and scrolls there, not the page. Tiles are rounded white cards, slightly see-through, lifting with a violet edge on hover
+- **Play-again** — takes over the button area: placed and sized from `guess.js` to cover exactly where the buttons are, or the visible part of the board when it scrolls. Text scales to fit, z-index 200
+- **Phones** — under 700px wide everything goes full width, tiles shrink to 56px, and the road goes back to full screen behind it all
 
 ### Interactions
 
-- Tile hover darkens to `#dcdce8`; wrong/right tiles don't change on hover
+- Tile hover lifts 2px with a violet border and soft shadow; wrong/right tiles don't move
 - Buttons and play-again hover fills violet `#6c5ce7` with white text
 - Input focus shows violet border (no outline)
+- The "_ numbers" button fills in as you type: "12 numbers", "abc numbers", whatever is in the box. Empty, it's "_ numbers" again
 - Transitions: 0.15s on tiles, 0.2s on buttons and play-again
 
 
@@ -59,6 +62,7 @@ IIFE that consumes GameModule. All DOM work lives here:
 - `createGame(number)` — builds the clickable tile grid, wires click handlers
 - `sendMessage(message)` — updates the `#message` bar
 - `showBoard()` / `unhideMenu()` — toggles between menu and game views
+- `showPlayAgain()` — lays play-again over the button area
 - `choiceClick()` / `randomClick()` — entry points from the two menu buttons
 - `autoPlay()` — easter egg; auto-clicks random remaining tiles every 50ms
 - `drawMap()` — the background map and route, once, on load
@@ -98,7 +102,7 @@ Edge cases producing weird behavior (winning instantly with 0, guessing negative
 
 ## Known Limitations
 
-- **No mobile support** — no viewport meta tag, fixed-width layout, unplayable on phones
+- **Map doesn't re-fit on resize** — reload
 - **Tiles come from openstreetmap.org** — fine for a small site; heavy use would want a proper tile provider
 - **Dead analytics** — Universal Analytics (`UA-` tracking ID) shut down in 2023
 - **XHTML 1.0 Strict doctype** — legacy artifact, plain `<!DOCTYPE html>` would do
