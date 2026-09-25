@@ -46,7 +46,8 @@ Modern map, not an old one. The bus was 2007.
 
 - **Background** — the real road on OpenStreetMap standard tiles via Leaflet
   1.9 (cdnjs), full bleed, fitted to the whole route, tiles greyed and faded
-  so the chrome reads over it. Nothing on it moves. No key, attribution
+  so the chrome reads over it. A saffron dot on the road is the bus, moved
+  along the route with every question. No key, attribution
   bottom right
 - **Diagram** — a white panel down the left: one navy line, Delhi at the
   bottom, McLeod Ganj at the top, the towns as white knots at their true

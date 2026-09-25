@@ -4,13 +4,13 @@
     var road = RouteData.coords;
     var km = M.lengthKm(road);
 
-    var elapsed, bus, togo;
+    var elapsed, bus, togo, marker;
 
     var sendMessage = function(message) {
 	return $("#message").html(message);
     };
 
-    // The background: the whole road on the real map. Nothing moves here.
+    // The background: the whole road on the real map. Only the bus moves.
     var drawMap = function() {
 	var map = L.map("map", {
 	    zoomControl: false, dragging: false, scrollWheelZoom: false,
@@ -22,6 +22,9 @@
 	}).addTo(map);
 	L.polyline(road, { color: "#1f3a93", weight: 4, opacity: 0.8 }).addTo(map);
 	map.fitBounds(L.latLngBounds(road), { padding: [40, 40] });
+	marker = L.circleMarker(road[0], {
+	    radius: 7, color: "#fff", weight: 2, fillColor: "#ff9933", fillOpacity: 1
+	}).addTo(map);
     };
 
     // The diagram: Delhi at the bottom, McLeod Ganj at the top, the towns at
@@ -62,6 +65,7 @@
 	bus.setAttribute("cy", y);
 	togo.setAttribute("y", y + 4);
 	togo.textContent = Math.round(km * (1 - fraction)) + " km";
+	marker.setLatLng(M.pointAt(road, fraction));
 	$("#clock").text(M.clockFor(elapsed));
     };
 
