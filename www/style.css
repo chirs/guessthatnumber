@@ -110,14 +110,14 @@ body {
 
 /* The pad: a hundred numbers, always ready. */
 #pad {
-    position: relative;
+    position: fixed;
+    right: 24px;
+    top: 90px;
+    width: 592px;
     z-index: 1;
-    padding: 90px 24px 40px 268px;
-    max-width: 640px;
-    margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: flex-end;
     gap: 8px;
 }
 

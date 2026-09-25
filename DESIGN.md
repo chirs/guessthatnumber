@@ -52,7 +52,8 @@ Modern map, not an old one. The bus was 2007.
   share of the road. Chandigarh is about halfway and the hill towns crowd
   the top; the labels are nudged apart, the knots are not. Saffron bus dot
   with a white ring climbs the line, kilometres to go beside it
-- **Pad** — a hundred numbers in navy-ringed white squares, always live.
+- **Pad** — a hundred numbers in navy-ringed white squares, always live,
+  ten across against the right edge.
   Saffron while pressed. They never flip, because nothing is hidden
 - **Chrome** — system sans-serif. Message bar full width on top, clock top
   right, arrival overlay centered. Panels white with a hairline border
