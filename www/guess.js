@@ -9,12 +9,16 @@
 	return $("#message").html(message);
     };
     
-    var createGame = function(number) {
+    var createGame = function(number, story) {
 	$("#game-board").show();
+
+	var winMessage = function() {
+	    return story ? story.arrival : makeResponse(hittingResponses);
+	};
 
 	if (number === 0) {
 	    $("#game-board").html("");
-	    sendMessage(makeResponse(hittingResponses));
+	    sendMessage(winMessage());
 	    $("#play-again").show();
 	    return;
 	}
@@ -37,7 +41,7 @@
 	    var i = parseInt($(this).html());
 	    
 	    if (i === game.secret){
-		sendMessage(makeResponse(hittingResponses));
+		sendMessage(winMessage());
 		$(this).addClass("right");
 		$(".guess").unbind("click");
 		$("#play-again").show()
@@ -46,10 +50,13 @@
 		$(this).addClass("wrong");
 		var remaining = $(".guess").not(".wrong").not(".right");
 		if (remaining.length === 1) {
-		    sendMessage(makeResponse(hittingResponses));
+		    sendMessage(winMessage());
 		    remaining.addClass("right");
 		    $(".guess").unbind("click");
 		    $("#play-again").show();
+		} else if (story) {
+		    var total = $(".guess").length;
+		    sendMessage(story.beats[story.beatFor(total - remaining.length, total)]);
 		} else {
 		    sendMessage(makeResponse(missingResponses));
 		}
@@ -64,6 +71,8 @@
     };
     
     var unhideMenu = function() {
+	$("body").removeClass("miryam");
+	$("#play-again").html("play again");
 	$("#menu").css("visibility", "visible");
 	$("#game-board").hide();
 	$("#play-again").hide()
@@ -94,10 +103,19 @@
 	showBoard();
 	return createGame(randomRange(10, 1000));
     };
+
+    var miryamClick = function() {
+	$("body").addClass("miryam");
+	$("#play-again").html("back to delhi");
+	showBoard();
+	sendMessage(MiryamModule.departure);
+	return createGame(MiryamModule.km, MiryamModule);
+    };
     
     $(document).ready(function() {
 	$("#start_choose_number").click(choiceClick);
 	$("#start_random").click(randomClick);
+	$("#start_miryam").click(miryamClick);
 	$("#play-again").click(unhideMenu);
 	$("input:text:visible:first").focus();
 	

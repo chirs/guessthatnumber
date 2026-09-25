@@ -83,6 +83,21 @@ body {
     color: #fff;
 }
 
+#start_miryam {
+    background: none;
+    border: none;
+    color: #6a6a80;
+    font-family: monospace;
+    font-size: 0.9em;
+    padding: 4px 8px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+#start_miryam:hover {
+    color: #6c5ce7;
+}
+
 #game-board {
     padding-top: 70px;
     cursor: pointer;
@@ -147,5 +162,53 @@ body {
 
 #play-again:hover {
     background-color: #6c5ce7;
+    color: #fff;
+}
+
+/* The Miryam version: the overnight bus, warmer and dustier. */
+
+body.miryam {
+    background-color: #f6f1e7;
+    color: #2e2618;
+}
+
+body.miryam #message {
+    background-color: #fffaf0;
+    border-bottom-color: #e0d5c0;
+    font-size: 1.2em;
+    line-height: 1.4;
+    height: auto;
+    min-height: 50px;
+    padding: 8px 16px;
+    box-sizing: border-box;
+}
+
+body.miryam #game-board {
+    padding-top: 90px;
+}
+
+body.miryam #game-board span.guess {
+    background-color: #efe7d6;
+    border-color: #e0d5c0;
+    color: #2e2618;
+}
+
+body.miryam #game-board span.guess:hover {
+    background-color: #e6dccb;
+}
+
+body.miryam #game-board span.guess.wrong,
+body.miryam #game-board span.guess.wrong:hover {
+    background-color: #d9cdb5;
+    color: #6b5a3e;
+}
+
+body.miryam #play-again {
+    background-color: #fffaf0;
+    border-color: #e0a030;
+}
+
+body.miryam #play-again:hover {
+    background-color: #e0a030;
     color: #fff;
 }
