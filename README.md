@@ -5,9 +5,16 @@ The dumbest guessing game I can imagine.
 
 #### History
 
-Created on a rickety bus from Delhi to Dharamsala with Miryam to pass the time. This is what happens when you're bouncing around for 12 hours with no internet.
+Invented on an overnight bus from Delhi to Dharamsala, late 2008 or
+early 2009, with Miryam and Setiawan. The bus was bumpy and unpleasant
+and took all night. Miryam and I made up the game together to get
+through it: one of us holds a number, the other guesses, yes or no.
+We played for hours. Neither of us remembers how it ended. The Dalai
+Lama wasn't the plan. He just showed up.
 
-The site is that bus ride. The real road, a diagram of it, a hundred numbers. Every question moves the bus a random amount. You arrive when the bus does.
+The site is that bus ride. The real road, a diagram of it, a hundred
+numbers. Nobody holds a number here. The road says yes or no, the bus
+moves either way, and you arrive when the bus does.
 
 
 #### Rules

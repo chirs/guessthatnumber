@@ -7,9 +7,10 @@ page is built, and the stuff that looks like bugs but isn't.
 ## What it is
 
 Two friends, a programmer and an artist, on an overnight public bus from
-Delhi to Dharamsala, ten hours, can't sleep, invent a game out loud: pick a
-number, ask if it's the one, yes or no. It has a name before it has anything
-else. It was never about the number. It was a way to spend the ride.
+Delhi to Dharamsala, late 2008 or early 2009, bumpy and unpleasant, invent a
+game out loud: one holds a number, the other guesses, yes or no. They play
+for hours. Neither remembers how it ended. It was never about the number. It
+was a way to spend the ride.
 
 The site is that bus ride. The real road, a diagram of it, a hundred numbers.
 Every question moves the bus a little and the bus moves whether the answer
@@ -120,4 +121,3 @@ on it in order. No browser tests.
   2023
 - **Phone width** — the diagram is fixed to the left and the pad sits beside
   it; narrow screens haven't been looked at
-- **Beats are a draft** — they still mention a laptop that was not on the bus
