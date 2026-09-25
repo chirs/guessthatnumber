@@ -7,6 +7,7 @@
   <meta name="description" content="Delhi to McLeod Ganj. Ten hours. Guess." />
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@800&family=Mukta:wght@400;600;700&display=swap" />
   <link rel="stylesheet" href="style.css" />
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
@@ -17,14 +18,20 @@
   <script src="guess.js"></script>
 </head>
 
-<body>
+<body class="start">
 
-  <div id="message"></div>
-  <div id="clock"></div>
+  <header id="top">
+    <div id="title">Guess That Number</div>
+    <div id="message"></div>
+    <div id="clock"></div>
+  </header>
+
+  <div id="start">
+    <div id="ask"></div>
+    <div class="stepper"><span class="step" data-by="-1">&minus;</span><span id="howmany"></span><span class="step" data-by="1">+</span><span id="go">&#10003;</span></div>
+  </div>
 
   <div id="map"></div>
-
-  <div id="track"></div>
 
   <div id="pad"></div>
 

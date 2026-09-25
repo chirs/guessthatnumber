@@ -12,66 +12,79 @@ game out loud: say how many numbers there are, one holds one of them, the
 other guesses, yes or no. They play for hours. Neither remembers how it ended. It was never about the number. It
 was a way to spend the ride.
 
-The site is that bus ride. The real road, a diagram of it, as many numbers as you say.
-Every question moves the bus a little and the bus moves whether the answer
-was yes or no. The only ending is arrival.
+The site is that bus ride. The real road on a map, as many numbers as you
+say, one of them the right one. Wrong guesses move the bus somewhere along
+the road; the right one gets you to McLeod Ganj.
 
 
 ## The Game
 
-- **How many first** — the page opens asking how many numbers there are,
-  with a field in the message bar and nothing on the pad. Type a number,
-  press enter, and the pad is 1 to that number for the rest of the ride.
-  No cap; a big board scrolls. Then "Pick a number." and the ride starts.
-  A board of three means tapping the same three all night
-- **Yes or no** — click a number. The road says "Yes." or "No." by coin
-  flip. There is no secret number. Yes ends nothing. The number browns out
-  but stays live; asked again it gets a fresh coin
-- **Every question costs road** — `slice` in `miryam.js`: between 5 and 30
-  minutes of the 600, at random, 5% of the ride at most. About 1 in 6
-  questions (`setback`) spends that slice going backwards instead, never
-  past Delhi, with a line from `setbacks` in place of the beat. A ride is
-  about fifty questions but nobody knows. Clock follows the minutes, bus
-  follows the clock, kilometres to go follow the bus
-- **The road talks** — after the answer comes a beat from `beats`, picked by
-  `beatAt` from how far along the ride is, so the last one lands as the bus
-  climbs into the hills. Fast rides skip beats. That's fine
-- **Arrival** — when the minutes run out: "McLeod Ganj. We're here." and a
-  `back to delhi` overlay that puts the bus back at the stand and asks how
-  many again
-- **No opener** — the page loads ready: bus on Delhi, 8:00 pm, `howMany`
-  in the message bar. The first click is getting on the bus. The name lives
-  in the tab title
+- **How many, first** — the most important move in the game, so it gets
+  the whole game side of the screen: a big "How many?" and a stepper,
+  minus, the count, plus, a check mark. Starts at 12; 1 to 1024, one at a
+  time. The route shows the count as cuts as you change it (see below).
+  Back to Delhi asks again from 12
+- **The board** — the smallest square that holds the count, filled in
+  order; what doesn't fill stays empty. 24 is a 5×5 missing its last cell.
+  The square is as big as fits right of the road, so boxes and numbers
+  scale with the side. Never scrolls
+- **The secret** — pressing the check picks one number at random. Nobody
+  says which
+- **Guessing** — click a number. Wrong: "No." and a line from the road, the
+  box browns out and is done with, and the bus lands on a random cut short
+  of the end. Right: the bus is in McLeod Ganj and it's "YOU WIN." Every
+  board ends within as many guesses as it has numbers
+- **The cuts** — n numbers cut the road into n equal stretches by distance,
+  so n − 1 marks along the route. The bus only ever stands on a cut; the
+  last one is McLeod Ganj. Past 512 the marks would paint over the road, so
+  they aren't drawn
+- **The road talks** — a wrong guess gets a beat from `beats`, picked by
+  `beatAt` from where the bus landed; if it landed behind where it was, a
+  line from `setbacks` instead. The clock follows the bus
+- **Winning** — the bus reaches McLeod Ganj, your number turns orange,
+  and one big milestone comes up over the board: मैक्लोडगंज · McLeod Ganj
+  in its yellow top, "You win." below. Nothing flashes, nothing rains
+  down: an arrival, not a jackpot. Click it to go back to Delhi
 - **The road** — `route.js` holds the driving route from ISBT Kashmere Gate
   to McLeod Ganj, fetched once from OSRM (OpenStreetMap data) and baked in:
   about 6,000 `[lat, lng]` points, 501 km. Nothing is fetched at runtime
-  except map tiles
+  except map tiles, fonts, and the libraries
 
 
 ## Visual Design
 
-Modern map, not an old one. The bus was 2007.
+Plain and modern, with the place coming from the road itself rather than
+from decoration. No colonial nostalgia (no survey sheets, parchment, Raj
+railway styling) and no religious or cultural imagery used as ornament —
+that includes marigolds and sindoor on the Hindu side and prayer flags on
+the Tibetan one. McLeod Ganj is home to the Tibetan exile community; the
+story names the place and the design leaves it at that. If a motif isn't
+something you'd actually see from the bus, it doesn't go in.
 
-- **Background** — the real road on OpenStreetMap standard tiles via Leaflet
-  1.9 (cdnjs), full bleed, fitted to the whole route, tiles greyed and faded
-  so the chrome reads over it. A saffron dot on the road is the bus, moved
-  along the route with every question. No key, attribution
-  bottom right
-- **Diagram** — a white panel down the left: one navy line, Delhi at the
-  bottom, McLeod Ganj at the top, the towns as white knots at their true
-  share of the road. Chandigarh is about halfway and the hill towns crowd
-  the top; the labels are nudged apart, the knots are not. Saffron bus dot
-  with a white ring eases up the line on every question, kilometres to go
-  beside it
-- **Pad** — the numbers in navy-ringed white squares, always live,
-  ten across against the right edge. Saffron while pressed, browned out
-  once asked. Still live: nothing is hidden, and asking again gets a fresh
-  coin. Back to Delhi clears them
-- **Chrome** — system sans-serif. Message bar full width on top, clock top
-  right, arrival overlay centered. Panels white with a hairline border
-- **Palette** — navy `#1f3a93` road, saffron `#ff9933` bus, India green
-  `#138808` kept in reserve. The saffron, white, and green are the only
-  India in the palette. Keep it at that
+- **Milestones** — the one motif. Indian National Highway kilometre stones
+  are white with a yellow top; every number on the board is one: rounded
+  top in highway yellow `#f2c200`, white below, ink outline. Asked ones grey
+  out. The check mark is yellow too
+- **Bilingual names** — the two ends of the road are labelled Hindi over
+  English, the way the road signs do it: दिल्ली / Delhi, मैक्लोडगंज /
+  McLeod Ganj. Only where the real signs would be
+- **Type** — from Indian type foundries, covering Devanagari and Latin:
+  Baloo 2 ExtraBold (Ek Type) for the title and the win, heavy but fancy;
+  Mukta (Ek Type) for everything else. Google Fonts
+- **The band** — full width across the top, off-white with a hairline:
+  the title on the left, the road's line and the clock during the ride
+- **Map** — full bleed under everything below the band, OpenStreetMap
+  tiles via Leaflet 1.9, greyed and faded, fitted so the route runs down
+  the left third. Not for touching. Route in red `#d0021b`, the only thing
+  on the map that shouts. Bus is an orange dot; cuts are dark dots ringed
+  in white, white specks past 64
+- **The line** — a hairline at 35% splits the road from the game; the
+  game's side is washed a touch darker. There from the first screen
+- **Winning** — calm on purpose. An earlier version went full confetti and
+  rocking colour-cycled text; it read like a lottery. Now it's the last
+  milestone, and that's enough
+- **Palette** — tokens on `:root` in `style.css`: paper `#fafaf7`, ink
+  `#1d1d1b`, road red, bus orange `#ff8c1a`, milestone yellow
 
 
 ## Architecture
@@ -86,11 +99,11 @@ OSRM call is in the git history of this file's first commit.
 
 ### miryam.js (MiryamModule)
 
-Pure, no DOM. Story (`departure`, `beats`, `arrival`, `answers`), pacing
-(`beatAt`, `clockFor`), the constants (`minutes`, `slice`), `towns` for the
-diagram, and the road geometry helpers: `lengthKm`, `pointAt(coords,
-fraction)`, `fractionOf(coords, latlng)`. Flat-earth distances; fine at
-500 km.
+Pure, no DOM. Story (`howMany`, `departure`, `beats`, `setbacks`), pacing
+(`beatAt`, `clockFor`, `minutes`), `towns`, and the road geometry helpers:
+`lengthKm`, `pointAt(coords, fraction)`, `fractionOf(coords, latlng)`.
+Flat-earth distances; fine at 500 km. `answers`, `arrival`, `slice` and
+`setback` are left over from the coin-flip version and unused by the page.
 
 ### game.js (GameModule)
 
@@ -98,9 +111,10 @@ Left over from the tile version. Only `randomRange` is used now.
 
 ### guess.js
 
-All DOM and Leaflet work: `drawMap()` for the background, `drawTrack()` for
-the diagram, `ask()` for a question, `deal()` for Delhi, and `autoPlay()`
-for riding the bus without lifting a finger.
+All DOM and Leaflet work: `drawMap()` for the map, `drawCuts(n)` for the
+marks on the route, `drawPad(n)` for the board, `step()` for the stepper,
+`ask()` for a guess, `celebrate()` for the last milestone, `deal()` for Delhi, and
+`autoPlay()` for riding the bus without lifting a finger.
 
 ### Tests
 
@@ -111,11 +125,10 @@ on it in order. No browser tests.
 
 ## Edge Cases (by design)
 
-- **Rides always end** — you can't lose, and you can't win. If you keep
-  asking, you will eventually arrive
-- **Yes means nothing** — a yes is worth exactly one no. Anyone who stops on
-  a yes has misunderstood the bus
-- **Ride length varies** — twenty questions or forty. The dice are the road
+- **A board of one** — one box, no cuts, and you win. Fine
+- **Wrong guesses can go backwards** — the bus lands on any cut short of
+  the end, behind or ahead. The road doesn't care how close you were
+- **The map doesn't re-fit on resize** — reload
 - **Reload loses the ride** — nothing is saved. That's the bus
 
 
@@ -125,5 +138,7 @@ on it in order. No browser tests.
   would want a proper tile provider
 - **Dead analytics** — Universal Analytics (`UA-` tracking ID) shut down in
   2023
-- **Phone width** — the diagram is fixed to the left and the pad sits beside
-  it; narrow screens haven't been looked at
+- **Phone width** — the layout splits the screen 35/65 and the band is one
+  row; narrow screens haven't been looked at
+- **Stepping to a big board is slow** — one click per number, so 1024 is
+  a thousand clicks

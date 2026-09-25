@@ -13,9 +13,9 @@ var MiryamModule = (function() {
     var answers = ["Yes.", "No."];
 
     // First, how many numbers there are. Then which one.
-    var howMany = "Delhi, evening. Ten hours to McLeod Ganj. How many numbers?";
+    var howMany = "How many?";
 
-    var departure = "Pick a number.";
+    var departure = "Delhi, evening. Ten hours to McLeod Ganj. Pick a number.";
 
     // The overnight bus, in order. Only the road and what we remember,
     // which is that it was bumpy and long.

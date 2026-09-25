@@ -2,107 +2,118 @@
     var randomRange = GameModule.randomRange;
     var M = MiryamModule;
     var road = RouteData.coords;
-    var km = M.lengthKm(road);
 
-    var elapsed, bus, togo, marker;
+    var elapsed, marker, cuts;
 
     var sendMessage = function(message) {
 	return $("#message").html(message);
     };
 
-    // The background: the whole road on the real map. Only the bus moves.
+    // Underneath: the whole road on the real map. Only the bus moves.
     var drawMap = function() {
 	var map = L.map("map", {
 	    zoomControl: false, dragging: false, scrollWheelZoom: false,
-	    doubleClickZoom: false, touchZoom: false, boxZoom: false, keyboard: false
+	    doubleClickZoom: false, touchZoom: false, boxZoom: false, keyboard: false,
+	    preferCanvas: true
 	});
 	L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
 	    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
 	    maxZoom: 19
 	}).addTo(map);
-	L.polyline(road, { color: "#1f3a93", weight: 4, opacity: 0.8 }).addTo(map);
-	map.fitBounds(L.latLngBounds(road), { padding: [40, 40] });
+	L.polyline(road, { color: "#d0021b", weight: 5, opacity: 1 }).addTo(map);
+	// The road keeps the left third to itself; the numbers get the rest.
+	map.fitBounds(L.latLngBounds(road), {
+	    paddingTopLeft: [40, 40],
+	    paddingBottomRight: [window.innerWidth * 0.65, 40]
+	});
+	// Both ends named as the road signs name them, Hindi over English.
+	var end = function(at, html, dir) {
+	    L.tooltip({ permanent: true, direction: dir, className: "end", offset: [dir === "right" ? 10 : -10, 0] })
+		.setLatLng(at).setContent(html).addTo(map);
+	};
+	end(road[0], "दिल्ली<br>Delhi", "right");
+	end(road[road.length - 1], "मैक्लोडगंज<br>McLeod Ganj", "right");
+	cuts = L.layerGroup().addTo(map);
 	marker = L.circleMarker(road[0], {
-	    radius: 7, color: "#fff", weight: 2, fillColor: "#ff9933", fillOpacity: 1
+	    radius: 7, color: "#fff", weight: 2, fillColor: "#ff8c1a", fillOpacity: 1
 	}).addTo(map);
     };
 
-    // The diagram: Delhi at the bottom, McLeod Ganj at the top, the towns at
-    // their true share of the road. The bus climbs it.
-    var top = 24, bottom = 576, x = 60;
-    var yAt = function(fraction) { return bottom - fraction * (bottom - top); };
-
-    var svg = function(tag, attrs, text) {
-	var el = document.createElementNS("http://www.w3.org/2000/svg", tag);
-	for (var k in attrs) el.setAttribute(k, attrs[k]);
-	if (text) el.textContent = text;
-	return el;
-    };
-
-    var drawTrack = function() {
-	var root = svg("svg", { viewBox: "0 0 220 600", preserveAspectRatio: "xMidYMid meet" });
-	root.appendChild(svg("line", { "class": "road", x1: x, y1: bottom, x2: x, y2: top }));
-
-	// Labels can't overlap, even where the towns do.
-	var labelY = -Infinity;
-	M.towns.slice().reverse().forEach(function(t) {
-	    var y = yAt(M.fractionOf(road, [t.lat, t.lng]));
-	    labelY = Math.max(y, labelY + 14);
-	    root.appendChild(svg("circle", { "class": "town", cx: x, cy: y, r: 4 }));
-	    root.appendChild(svg("text", { "class": "label", x: x + 14, y: labelY + 4 }, t.name));
-	});
-
-	bus = svg("circle", { "class": "bus", cx: x, cy: bottom, r: 7 });
-	togo = svg("text", { "class": "togo", x: x - 14, y: bottom + 4 });
-	root.appendChild(bus);
-	root.appendChild(togo);
-	$("#track").empty().append(root);
-    };
-
     var moveBus = function() {
-	var fraction = elapsed / M.minutes;
-	var y = yAt(fraction);
-	bus.setAttribute("cy", y);
-	togo.setAttribute("y", y + 4);
-	togo.textContent = Math.round(km * (1 - fraction)) + " km";
-	marker.setLatLng(M.pointAt(road, fraction));
+	marker.setLatLng(M.pointAt(road, elapsed / M.minutes));
 	$("#clock").text(M.clockFor(elapsed));
     };
 
-    // The board: 1 to however many you said.
+    // The board: the smallest square that holds n, filled in order; whatever
+    // doesn't fill is left empty.
     var drawPad = function(n) {
+	var side = Math.ceil(Math.sqrt(n));
+	var pad = $("#pad")[0];
+	pad.style.setProperty("--side", side);
+	pad.style.setProperty("--fit", n < 10 ? 0.4 : n < 100 ? 0.34 : n < 1000 ? 0.28 : 0.22);
 	var html = "";
-	for (var i = 1; i <= n; i++) html += '<span class="n">' + i + "</span>";
+	for (var i = 1; i <= n; i++) html += '<span class="n" style="--i:' + i + '">' + i + "</span>";
 	$("#pad").html(html);
     };
 
     // You say how many numbers there are. Then there are that many.
-    var board = function(e) {
-	if (e.which !== 13) return;
-	var n = parseInt($(this).val(), 10);
-	if (!(n >= 1)) return;
-	drawPad(n);
+    var howMany, secret;
+
+    // n numbers cut the road into n equal stretches: n - 1 cuts. Past 512
+    // they'd paint over the road, so the road is left alone.
+    var drawCuts = function(n) {
+	cuts.clearLayers();
+	if (n > 512) return;
+	var few = n <= 64;
+	for (var i = 1; i < n; i++) {
+	    L.circleMarker(M.pointAt(road, i / n), {
+		radius: few ? 4 : 1.5, color: "#fff", weight: few ? 1.5 : 0,
+		fillColor: few ? "#1d1d1b" : "#fff", fillOpacity: 1
+	    }).addTo(cuts);
+	}
+    };
+
+    // One at a time, 1 to 1024, from 12.
+    var step = function() {
+	howMany = Math.min(1024, Math.max(1, howMany + Number($(this).data("by"))));
+	$("#howmany").text(howMany);
+	drawCuts(howMany);
+    };
+
+    var board = function() {
+	$("body").removeClass("start");
+	secret = randomRange(1, howMany);
+	drawPad(howMany);
 	sendMessage(M.departure);
     };
 
-    // Ask the road if it's this number. It says yes or no. It doesn't matter.
+    // One number is the right one. Pick it and the bus is in McLeod Ganj;
+    // pick any other and it lands on a random cut short of the end.
     var ask = function() {
-	if (elapsed >= M.minutes) return;
+	if (elapsed >= M.minutes || $(this).hasClass("asked")) return;
 	$(this).addClass("asked");
-	var cost = randomRange(M.slice.min, M.slice.max);
-	var back = Math.random() < M.setback;
-	elapsed = back ? Math.max(0, elapsed - cost) : Math.min(M.minutes, elapsed + cost);
-	moveBus();
+	var it = Number($(this).text());
 
-	if (elapsed >= M.minutes) {
-	    sendMessage(M.arrival);
-	    $("#play-again").show();
+	if (it === secret) {
+	    elapsed = M.minutes;
+	    moveBus();
+	    sendMessage("");
+	    celebrate(this);
 	    return;
 	}
-	var answer = M.answers[Math.floor(Math.random() * M.answers.length)];
+	var k = randomRange(1, howMany - 1);
+	var back = k / howMany < elapsed / M.minutes;
+	elapsed = k / howMany * M.minutes;
+	moveBus();
 	var line = back ? M.setbacks[Math.floor(Math.random() * M.setbacks.length)]
-			: M.beats[M.beatAt(elapsed / M.minutes)];
-	sendMessage(answer + " " + line);
+			: M.beats[M.beatAt(k / howMany)];
+	sendMessage("No. " + line);
+    };
+
+    // The last milestone: McLeod Ganj, and you win. Nothing flashes.
+    var celebrate = function(box) {
+	$(box).removeClass("asked").addClass("right");
+	$("#play-again").html('<span class="top">मैक्लोडगंज · McLeod Ganj</span>You win.').show();
     };
 
     // Back at the stand in Delhi, engine running.
@@ -111,8 +122,11 @@
 	$("#pad").empty();
 	elapsed = 0;
 	moveBus();
-	sendMessage(M.howMany + ' <input id="howmany" inputmode="numeric" autocomplete="off">');
-	$("#howmany").focus();
+	sendMessage("");
+	$("body").addClass("start");
+	howMany = 12;
+	$("#howmany").text(howMany);
+	drawCuts(howMany);
     };
 
     // For riding the bus without lifting a finger.
@@ -125,9 +139,10 @@
 
     $(document).ready(function() {
 	drawMap();
-	drawTrack();
 	$("#pad").on("click", ".n", ask);
-	$("#message").on("keydown", "#howmany", board);
+	$("#ask").text(M.howMany);
+	$("#start .step").click(step);
+	$("#go").click(board);
 	$("#play-again").click(deal);
 	deal();
     });

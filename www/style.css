@@ -1,64 +1,160 @@
+/* Plain and modern; the one motif is the road's own: the yellow-topped
+   National Highway milestone. See DESIGN.md. */
+:root {
+    --paper: #fafaf7;
+    --ink: #1d1d1b;
+    --muted: #6b6b66;
+    --line: rgba(29, 29, 27, 0.15);
+    --road: #d0021b;
+    --bus: #ff8c1a;
+    --milestone: #f2c200;
+}
+
 html, body {
     margin: 0;
     padding: 0;
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-    color: #1a1a2e;
-    background-color: #f4f4f2;
+    font-family: "Mukta", system-ui, sans-serif;
+    color: var(--ink);
+    background-color: var(--paper);
 }
 
-/* The message bar: the road talking. */
-#message {
+/* The band across the top: the title, then the question or the road talking. */
+#top {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
+    right: 0;
+    height: 88px;
     box-sizing: border-box;
-    padding: 16px 160px 16px 24px;
-    background-color: rgba(255, 255, 255, 0.95);
-    border-bottom: 1px solid #ddd;
-    font-size: 1.3em;
-    line-height: 1.4;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    padding: 0 32px;
+    background-color: rgba(250, 250, 247, 0.96);
+    border-bottom: 1px solid var(--line);
     z-index: 1000;
 }
 
-/* Where you say how many. */
+/* Heavy but fancy. */
+#title {
+    font-family: "Baloo 2", "Mukta", system-ui, sans-serif;
+    font-weight: 800;
+    font-size: 2.6em;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+/* Before anything: how many. The whole game side, until you say. */
+#start {
+    display: none;
+    position: fixed;
+    left: 35%;
+    right: 0;
+    top: 88px;
+    bottom: 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    font-size: 3em;
+    z-index: 2;
+}
+
+#ask {
+    font-family: "Baloo 2", "Mukta", system-ui, sans-serif;
+    font-weight: 800;
+    font-size: 1.4em;
+    line-height: 1;
+}
+
+#message {
+    flex: 1;
+    font-size: 1.25em;
+    line-height: 1.3;
+}
+
+body.start #start { display: flex; }
+body.start #message,
+body.start #clock,
+body.start #pad { display: none; }
+
+/* Where you say how many: minus, the count, plus, check. */
+.stepper {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
 #howmany {
-    width: 4em;
-    margin-left: 4px;
-    padding: 0 4px;
-    font: inherit;
-    color: inherit;
-    background: transparent;
-    border: none;
-    border-bottom: 2px solid #1f3a93;
-    outline: none;
+    min-width: 2.4em;
+    text-align: center;
+    font-weight: 700;
     font-variant-numeric: tabular-nums;
+}
+
+.step, #go {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.6em;
+    height: 1.6em;
+    padding: 0 12px;
+    box-sizing: border-box;
+    border: 2px solid var(--ink);
+    border-radius: 6px;
+    background-color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+    user-select: none;
+}
+
+#go {
+    margin-left: 8px;
+    background-color: var(--milestone);
+}
+
+.step:active, #go:active {
+    background-color: var(--bus);
 }
 
 #clock {
-    position: fixed;
-    top: 18px;
-    right: 24px;
-    font-size: 1em;
-    color: #555;
+    font-size: 1.1em;
+    color: var(--muted);
+    white-space: nowrap;
     font-variant-numeric: tabular-nums;
-    z-index: 1001;
 }
 
-/* The background: the real road on the real map. Not for touching. */
+/* Underneath everything: the real map, faded. Only the route shouts. */
 #map {
     position: fixed;
-    inset: 0;
+    top: 88px;
+    right: 0;
+    bottom: 0;
+    left: 0;
     z-index: 0;
-    background-color: #f4f4f2;
+    background-color: var(--paper);
+}
+
+/* The game's side of the line, shaded, there from the start. */
+body::before {
+    content: "";
+    position: fixed;
+    left: 35%;
+    right: 0;
+    top: 88px;
+    bottom: 0;
+    border-left: 1px solid var(--line);
+    background-color: rgba(29, 29, 27, 0.04);
+    z-index: 1;
+    pointer-events: none;
 }
 
 #map .leaflet-tile-pane {
-    filter: grayscale(0.5);
-    opacity: 0.4;
+    filter: grayscale(1);
+    opacity: 0.35;
 }
 
 .leaflet-container {
@@ -69,91 +165,53 @@ body {
     font-size: 9px;
 }
 
-/* The diagram: the road as a line, the towns where they really are. */
-#track {
-    position: fixed;
-    left: 24px;
-    top: 90px;
-    bottom: 24px;
-    width: 220px;
-    box-sizing: border-box;
-    padding: 12px 0;
-    background-color: rgba(255, 255, 255, 0.95);
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-    z-index: 900;
+/* The two ends of the road, named the way the signs name them. */
+.leaflet-tooltip.end {
+    padding: 2px 8px;
+    border: 1px solid var(--ink);
+    border-radius: 4px;
+    box-shadow: none;
+    font-size: 13px;
+    line-height: 1.25;
+    font-weight: 600;
+    color: var(--ink);
+    text-align: left;
 }
 
-#track svg {
-    width: 100%;
-    height: 100%;
-    display: block;
+.leaflet-tooltip.end::before {
+    display: none;
 }
 
-#track .road {
-    stroke: #1f3a93;
-    stroke-width: 4;
-    stroke-linecap: round;
-    fill: none;
-}
-
-#track .town {
-    fill: #fff;
-    stroke: #1f3a93;
-    stroke-width: 2;
-}
-
-#track .label {
-    font-size: 12px;
-    fill: #1a1a2e;
-}
-
-#track .bus {
-    fill: #ff9933;
-    stroke: #fff;
-    stroke-width: 2;
-    transition: cy 0.6s ease-out;
-}
-
-#track .togo {
-    font-size: 11px;
-    fill: #555;
-    text-anchor: end;
-    font-variant-numeric: tabular-nums;
-    transition: y 0.6s ease-out;
-}
-
-/* The pad: a hundred numbers, always ready. */
+/* The pad: a square board, as big as fits right of the road. */
 #pad {
+    --square: min(calc(65vw - 48px), calc(100vh - 136px));
+    --side: 3;
+    --cell: calc(var(--square) / var(--side));
     position: fixed;
-    right: 24px;
-    top: 90px;
-    bottom: 24px;
-    width: 592px;
-    overflow-y: auto;
+    left: calc(35vw + (65vw - var(--square)) / 2);
+    top: 112px;
+    width: var(--square);
+    height: var(--square);
     z-index: 1;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-content: flex-start;
-    gap: 8px;
+    display: grid;
+    grid-template-columns: repeat(var(--side), minmax(0, 1fr));
+    grid-template-rows: repeat(var(--side), minmax(0, 1fr));
+    gap: calc(var(--cell) * 0.1);
 }
 
+/* Each number a milestone: rounded top in highway yellow, white below. */
 .n {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
-    min-width: 52px;
-    height: 52px;
-    padding: 0 8px;
+    padding-bottom: calc(var(--cell) * 0.08);
     box-sizing: border-box;
-    border-radius: 6px;
-    background-color: #fff;
-    border: 2px solid #1f3a93;
-    color: #1f3a93;
-    font-weight: 600;
-    font-size: 1.2em;
+    border-radius: 45% 45% 4px 4px / 30% 30% 4px 4px;
+    background: linear-gradient(var(--milestone) 0 30%, rgba(255, 255, 255, 0.8) 30%);
+    border: 2px solid var(--ink);
+    font-weight: 700;
+    font-size: calc(var(--cell) * var(--fit, 0.4));
+    line-height: 1;
     cursor: pointer;
     user-select: none;
     transition: transform 0.1s ease;
@@ -164,35 +222,29 @@ body {
 }
 
 .n:active {
-    background-color: #ff9933;
-    border-color: #ff9933;
-    color: #1a1a2e;
+    background: var(--bus);
 }
 
-/* Asked. Still live, the road just doesn't remember. */
+/* Asked. Wrong, and done with. */
 .n.asked {
-    background-color: #efe6d8;
-    border-color: #b89b7a;
-    color: #8a6d4f;
-}
-
-.n.asked:active {
-    background-color: #ff9933;
-    border-color: #ff9933;
-    color: #1a1a2e;
+    background: linear-gradient(rgba(29, 29, 27, 0.12) 0 30%, rgba(255, 255, 255, 0.5) 30%);
+    border-color: rgba(29, 29, 27, 0.3);
+    color: rgba(29, 29, 27, 0.35);
+    cursor: default;
 }
 
 /* Arrival. */
 #play-again {
     display: none;
     position: fixed;
-    left: 50%;
-    top: 50%;
+    left: 67.5%;
+    top: calc(50% + 44px);
     transform: translate(-50%, -50%);
+    white-space: nowrap;
     padding: 40px 60px;
     background-color: #fff;
-    border: 2px solid #ff9933;
-    border-radius: 8px;
+    border: 3px solid var(--ink);
+    border-radius: 12px;
     font-size: 2em;
     cursor: pointer;
     z-index: 1000;
@@ -200,5 +252,32 @@ body {
 }
 
 #play-again:hover {
-    background-color: #ff9933;
+    background-color: var(--milestone);
+}
+
+/* The right one. */
+.n.right {
+    background: linear-gradient(var(--milestone) 0 30%, var(--bus) 30%);
+    color: #fff;
+    cursor: default;
+}
+
+/* Winning: one big milestone. */
+#play-again .top {
+    display: block;
+    margin: -8px 0 16px;
+    font-family: "Mukta", system-ui, sans-serif;
+    font-size: 0.3em;
+    font-weight: 600;
+    text-align: center;
+}
+
+#play-again:has(.top) {
+    font-family: "Baloo 2", "Mukta", system-ui, sans-serif;
+    font-weight: 800;
+    font-size: 5em;
+    line-height: 1.1;
+    padding: 24px 72px 32px;
+    border-radius: 50% 50% 12px 12px / 30% 30% 12px 12px;
+    background: linear-gradient(var(--milestone) 0 34%, #fff 34%);
 }
