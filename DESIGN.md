@@ -12,18 +12,18 @@ game out loud: say how many numbers there are, one holds one of them, the
 other guesses, yes or no. They play for hours. Neither remembers how it ended. It was never about the number. It
 was a way to spend the ride.
 
-The site is that bus ride. The real road, a diagram of it, a hundred numbers.
+The site is that bus ride. The real road, a diagram of it, as many numbers as you say.
 Every question moves the bus a little and the bus moves whether the answer
 was yes or no. The only ending is arrival.
 
 
 ## The Game
 
-- **How many first** — the page opens asking how many numbers there are.
-  The first tap on the hundred sets the board: the pad redraws as 1 to that
-  number and stays that way for the ride. The pad is the only input there
-  is, so a hundred is the biggest board. Then "Pick a number." and the ride
-  starts. A board of three means tapping the same three all night
+- **How many first** — the page opens asking how many numbers there are,
+  with a field in the message bar and nothing on the pad. Type a number,
+  press enter, and the pad is 1 to that number for the rest of the ride.
+  No cap; a big board scrolls. Then "Pick a number." and the ride starts.
+  A board of three means tapping the same three all night
 - **Yes or no** — click a number. The road says "Yes." or "No." by coin
   flip. There is no secret number. Yes ends nothing. The number browns out
   but stays live; asked again it gets a fresh coin
@@ -37,8 +37,8 @@ was yes or no. The only ending is arrival.
   `beatAt` from how far along the ride is, so the last one lands as the bus
   climbs into the hills. Fast rides skip beats. That's fine
 - **Arrival** — when the minutes run out: "McLeod Ganj. We're here." and a
-  `back to delhi` overlay that puts the bus back at the stand, with the
-  hundred numbers back on the pad
+  `back to delhi` overlay that puts the bus back at the stand and asks how
+  many again
 - **No opener** — the page loads ready: bus on Delhi, 8:00 pm, `howMany`
   in the message bar. The first click is getting on the bus. The name lives
   in the tab title
@@ -63,7 +63,7 @@ Modern map, not an old one. The bus was 2007.
   the top; the labels are nudged apart, the knots are not. Saffron bus dot
   with a white ring eases up the line on every question, kilometres to go
   beside it
-- **Pad** — a hundred numbers in navy-ringed white squares, always live,
+- **Pad** — the numbers in navy-ringed white squares, always live,
   ten across against the right edge. Saffron while pressed, browned out
   once asked. Still live: nothing is hidden, and asking again gets a fresh
   coin. Back to Delhi clears them

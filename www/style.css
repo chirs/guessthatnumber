@@ -24,6 +24,20 @@ body {
     z-index: 1000;
 }
 
+/* Where you say how many. */
+#howmany {
+    width: 4em;
+    margin-left: 4px;
+    padding: 0 4px;
+    font: inherit;
+    color: inherit;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid #1f3a93;
+    outline: none;
+    font-variant-numeric: tabular-nums;
+}
+
 #clock {
     position: fixed;
     top: 18px;
@@ -115,11 +129,14 @@ body {
     position: fixed;
     right: 24px;
     top: 90px;
+    bottom: 24px;
     width: 592px;
+    overflow-y: auto;
     z-index: 1;
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
+    align-content: flex-start;
     gap: 8px;
 }
 
@@ -127,8 +144,9 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 52px;
+    min-width: 52px;
     height: 52px;
+    padding: 0 8px;
     box-sizing: border-box;
     border-radius: 6px;
     background-color: #fff;

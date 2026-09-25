@@ -12,8 +12,8 @@ through it. You say how many numbers there are. One of us holds one
 of them, the other guesses, yes or no. We played for hours. Neither of us remembers how it ended. The Dalai
 Lama wasn't the plan. He just showed up.
 
-The site is that bus ride. The real road, a diagram of it, a hundred
-numbers. Nobody holds a number here. The road says yes or no, the bus
+The site is that bus ride. The real road, a diagram of it, as many
+numbers as you say. Nobody holds a number here. The road says yes or no, the bus
 moves either way, and you arrive when the bus does.
 
 

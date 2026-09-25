@@ -6,9 +6,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 "Guess That Number" is a client-side web game with no build system and no
 backend. It is the overnight bus from Delhi to McLeod Ganj on which the game
-was invented: the real road, a diagram of it, a hundred numbers. Ask if it's
-this one, the road says yes or no at random, the bus moves a random slice of
-the ride either way; the ride ends only on arrival. Hosted at
+was invented: the real road, a diagram of it, as many numbers as you say.
+Ask if it's this one, the road says yes or no at random, the bus moves a
+random slice of the ride either way; the ride ends only on arrival. Hosted at
 `guessthatnumber.edgemon.org`. See DESIGN.md for the full design.
 
 ## Development

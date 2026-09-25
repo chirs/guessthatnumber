@@ -4,7 +4,7 @@
     var road = RouteData.coords;
     var km = M.lengthKm(road);
 
-    var elapsed, bus, togo, marker, board;
+    var elapsed, bus, togo, marker;
 
     var sendMessage = function(message) {
 	return $("#message").html(message);
@@ -69,23 +69,25 @@
 	$("#clock").text(M.clockFor(elapsed));
     };
 
-    // A hundred numbers to choose the board from, or the board itself.
+    // The board: 1 to however many you said.
     var drawPad = function(n) {
 	var html = "";
 	for (var i = 1; i <= n; i++) html += '<span class="n">' + i + "</span>";
 	$("#pad").html(html);
     };
 
+    // You say how many numbers there are. Then there are that many.
+    var board = function(e) {
+	if (e.which !== 13) return;
+	var n = parseInt($(this).val(), 10);
+	if (!(n >= 1)) return;
+	drawPad(n);
+	sendMessage(M.departure);
+    };
+
     // Ask the road if it's this number. It says yes or no. It doesn't matter.
-    // The first number isn't a question. It's how many numbers there are.
     var ask = function() {
 	if (elapsed >= M.minutes) return;
-	if (board === null) {
-	    board = Number($(this).text());
-	    drawPad(board);
-	    sendMessage(M.departure);
-	    return;
-	}
 	$(this).addClass("asked");
 	var cost = randomRange(M.slice.min, M.slice.max);
 	var back = Math.random() < M.setback;
@@ -106,11 +108,11 @@
     // Back at the stand in Delhi, engine running.
     var deal = function() {
 	$("#play-again").hide();
-	board = null;
-	drawPad(100);
+	$("#pad").empty();
 	elapsed = 0;
 	moveBus();
-	sendMessage(M.howMany);
+	sendMessage(M.howMany + ' <input id="howmany" inputmode="numeric" autocomplete="off">');
+	$("#howmany").focus();
     };
 
     // For riding the bus without lifting a finger.
@@ -125,6 +127,7 @@
 	drawMap();
 	drawTrack();
 	$("#pad").on("click", ".n", ask);
+	$("#message").on("keydown", "#howmany", board);
 	$("#play-again").click(deal);
 	deal();
     });
