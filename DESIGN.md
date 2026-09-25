@@ -8,8 +8,8 @@ page is built, and the stuff that looks like bugs but isn't.
 
 Two friends, a programmer and an artist, on an overnight public bus from
 Delhi to Dharamsala, late 2008 or early 2009, bumpy and unpleasant, invent a
-game out loud: one holds a number, the other guesses, yes or no. They play
-for hours. Neither remembers how it ended. It was never about the number. It
+game out loud: say how many numbers there are, one holds one of them, the
+other guesses, yes or no. They play for hours. Neither remembers how it ended. It was never about the number. It
 was a way to spend the ride.
 
 The site is that bus ride. The real road, a diagram of it, a hundred numbers.
@@ -19,9 +19,11 @@ was yes or no. The only ending is arrival.
 
 ## The Game
 
-- **How many first** — the page opens asking how many questions the ride
-  will take. The first number tapped is that guess, not a question; the pad
-  is the only input there is. Then "Pick a number." and the ride starts
+- **How many first** — the page opens asking how many numbers there are.
+  The first tap on the hundred sets the board: the pad redraws as 1 to that
+  number and stays that way for the ride. The pad is the only input there
+  is, so a hundred is the biggest board. Then "Pick a number." and the ride
+  starts. A board of three means tapping the same three all night
 - **Yes or no** — click a number. The road says "Yes." or "No." by coin
   flip. There is no secret number. Yes ends nothing. The number browns out
   but stays live; asked again it gets a fresh coin
@@ -34,9 +36,9 @@ was yes or no. The only ending is arrival.
 - **The road talks** — after the answer comes a beat from `beats`, picked by
   `beatAt` from how far along the ride is, so the last one lands as the bus
   climbs into the hills. Fast rides skip beats. That's fine
-- **Arrival** — when the minutes run out, `arrivalFor`: "McLeod Ganj. We're
-  here. 41 questions. You said 30." No verdict, just the two numbers. Then
-  a `back to delhi` overlay that puts the bus back at the stand
+- **Arrival** — when the minutes run out: "McLeod Ganj. We're here." and a
+  `back to delhi` overlay that puts the bus back at the stand, with the
+  hundred numbers back on the pad
 - **No opener** — the page loads ready: bus on Delhi, 8:00 pm, `howMany`
   in the message bar. The first click is getting on the bus. The name lives
   in the tab title

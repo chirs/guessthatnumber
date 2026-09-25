@@ -1,6 +1,6 @@
 var assert = require('assert');
 var { randomRange, makeResponse, Game } = require('./game');
-var { beats, beatAt, minutes, slice, setback, setbacks, clockFor, arrivalFor, lengthKm, pointAt, fractionOf, towns } = require('./miryam');
+var { beats, beatAt, minutes, slice, setback, setbacks, clockFor, lengthKm, pointAt, fractionOf, towns } = require('./miryam');
 var RouteData = require('./route');
 
 // randomRange tests
@@ -112,12 +112,6 @@ var RouteData = require('./route');
   assert.strictEqual(clockFor(245), '12:05 am');
   assert.strictEqual(clockFor(minutes), '6:00 am');
   console.log('PASS: clock runs from 8 pm to 6 am');
-})();
-
-(function testArrivalSaysBothNumbers() {
-  assert.strictEqual(arrivalFor(30, 41), "McLeod Ganj. We're here. 41 questions. You said 30.");
-  assert.strictEqual(arrivalFor(1, 1), "McLeod Ganj. We're here. 1 question. You said 1.");
-  console.log('PASS: arrival gives the count next to the guess');
 })();
 
 // Road tests

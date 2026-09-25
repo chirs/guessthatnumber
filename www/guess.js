@@ -4,7 +4,7 @@
     var road = RouteData.coords;
     var km = M.lengthKm(road);
 
-    var elapsed, bus, togo, marker, guess, asked;
+    var elapsed, bus, togo, marker, board;
 
     var sendMessage = function(message) {
 	return $("#message").html(message);
@@ -69,16 +69,23 @@
 	$("#clock").text(M.clockFor(elapsed));
     };
 
+    // A hundred numbers to choose the board from, or the board itself.
+    var drawPad = function(n) {
+	var html = "";
+	for (var i = 1; i <= n; i++) html += '<span class="n">' + i + "</span>";
+	$("#pad").html(html);
+    };
+
     // Ask the road if it's this number. It says yes or no. It doesn't matter.
-    // The first number isn't a question. It's how many questions you think.
+    // The first number isn't a question. It's how many numbers there are.
     var ask = function() {
 	if (elapsed >= M.minutes) return;
-	if (guess === null) {
-	    guess = Number($(this).text());
+	if (board === null) {
+	    board = Number($(this).text());
+	    drawPad(board);
 	    sendMessage(M.departure);
 	    return;
 	}
-	asked++;
 	$(this).addClass("asked");
 	var cost = randomRange(M.slice.min, M.slice.max);
 	var back = Math.random() < M.setback;
@@ -86,7 +93,7 @@
 	moveBus();
 
 	if (elapsed >= M.minutes) {
-	    sendMessage(M.arrivalFor(guess, asked));
+	    sendMessage(M.arrival);
 	    $("#play-again").show();
 	    return;
 	}
@@ -99,10 +106,9 @@
     // Back at the stand in Delhi, engine running.
     var deal = function() {
 	$("#play-again").hide();
-	$("#pad .n").removeClass("asked");
+	board = null;
+	drawPad(100);
 	elapsed = 0;
-	guess = null;
-	asked = 0;
 	moveBus();
 	sendMessage(M.howMany);
     };
@@ -110,16 +116,15 @@
     // For riding the bus without lifting a finger.
     var autoPlay = function() {
 	setInterval(function() {
-	    $("#pad .n").eq(randomRange(0, 99)).click();
+	    var pad = $("#pad .n");
+	    pad.eq(randomRange(0, pad.length - 1)).click();
 	}, 50);
     };
 
     $(document).ready(function() {
 	drawMap();
 	drawTrack();
-	var html = "";
-	for (var i = 1; i <= 100; i++) html += '<span class="n">' + i + "</span>";
-	$("#pad").html(html).on("click", ".n", ask);
+	$("#pad").on("click", ".n", ask);
 	$("#play-again").click(deal);
 	deal();
     });
