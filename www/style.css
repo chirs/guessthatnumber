@@ -4,211 +4,168 @@ html, body {
 }
 
 body {
-    font-family: monospace;
-    background-color: #f2f2f8;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
     color: #1a1a2e;
+    background-color: #f4f4f2;
 }
 
+/* The message bar: the road talking. */
 #message {
-    background-color: #fff;
-    border-bottom: 1px solid #d8d8e4;
-    width: 100%;
     position: fixed;
-    height: 50px;
-    line-height: 50px;
-    text-align: center;
-    font-size: 2em;
-    z-index: 100;
+    top: 0;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 16px 160px 16px 24px;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-bottom: 1px solid #ddd;
+    font-size: 1.3em;
+    line-height: 1.4;
+    z-index: 1000;
 }
 
-#menu {
-    position: absolute;
-    background-color: #fff;
-    border: 1px solid #d8d8e4;
-    border-radius: 4px;
-    width: 400px;
-    left: 50%;
-    transform: translateX(-50%);
-    top: 20%;
-    text-align: center;
-    padding: 20px;
-}
-
-#menu h2 {
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    font-weight: normal;
-}
-
-#menu div,
-#menu p {
-    color: #6a6a80;
-    margin: 12px 0;
-}
-
-#number_range {
-    background-color: #f2f2f8;
-    border: 1px solid #d8d8e4;
-    border-radius: 4px;
-    color: #1a1a2e;
-    font-family: monospace;
-    font-size: 1.2em;
-    padding: 6px 10px;
-    text-align: center;
-    transition: border-color 0.2s ease;
-}
-
-#number_range:focus {
-    outline: none;
-    border-color: #6c5ce7;
-}
-
-#start_choose_number,
-#start_random {
-    background-color: #e8e8f0;
-    border: 1px solid #d8d8e4;
-    border-radius: 4px;
-    color: #1a1a2e;
-    font-family: monospace;
+#clock {
+    position: fixed;
+    top: 18px;
+    right: 24px;
     font-size: 1em;
-    padding: 8px 16px;
-    cursor: pointer;
-    transition: background-color 0.2s ease, border-color 0.2s ease;
+    color: #555;
+    font-variant-numeric: tabular-nums;
+    z-index: 1001;
 }
 
-#start_choose_number:hover,
-#start_random:hover {
-    background-color: #6c5ce7;
-    border-color: #6c5ce7;
-    color: #fff;
-}
-
-#start_miryam {
-    background: none;
-    border: none;
-    color: #6a6a80;
-    font-family: monospace;
-    font-size: 0.9em;
-    padding: 4px 8px;
-    cursor: pointer;
-    transition: color 0.2s ease;
-}
-
-#start_miryam:hover {
-    color: #6c5ce7;
-}
-
-#game-board {
-    padding-top: 70px;
-    cursor: pointer;
-    text-align: center;
-    margin: 0 auto;
-    width: 100%;
-    max-width: 900px;
-}
-
-#game-board span.guess {
-    background-color: #e8e8f0;
-    border: 1px solid #d8d8e4;
-    color: #1a1a2e;
-    font-size: 2em;
-    height: 50px;
-    width: 85px;
-    padding: 3px 0;
-    display: inline-block;
-    transition: background-color 0.15s ease;
-}
-
-#game-board span.guess:hover {
-    background-color: #dcdce8;
-}
-
-#game-board span.guess.wrong {
-    background-color: #f0c4ca;
-    color: #8a2d3b;
-}
-
-#game-board span.guess.wrong:hover {
-    background-color: #f0c4ca;
-}
-
-#game-board span.guess.right {
-    background-color: #c4f0e0;
-    color: #1a5c48;
-}
-
-#game-board span.guess.right:hover {
-    background-color: #c4f0e0;
-}
-
-#play-again {
+/* The background: the real road on the real map. Not for touching. */
+#map {
     position: fixed;
-    text-align: center;
+    inset: 0;
+    z-index: 0;
+    background-color: #f4f4f2;
+}
+
+#map .leaflet-tile-pane {
+    filter: grayscale(0.5);
+    opacity: 0.4;
+}
+
+.leaflet-container {
+    font-family: inherit;
+}
+
+.leaflet-control-attribution {
+    font-size: 9px;
+}
+
+/* The diagram: the road as a line, the towns where they really are. */
+#track {
+    position: fixed;
+    left: 24px;
+    top: 90px;
+    bottom: 24px;
+    width: 220px;
+    box-sizing: border-box;
+    padding: 12px 0;
+    background-color: rgba(255, 255, 255, 0.95);
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    z-index: 900;
+}
+
+#track svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+#track .road {
+    stroke: #1f3a93;
+    stroke-width: 4;
+    stroke-linecap: round;
+    fill: none;
+}
+
+#track .town {
+    fill: #fff;
+    stroke: #1f3a93;
+    stroke-width: 2;
+}
+
+#track .label {
+    font-size: 12px;
+    fill: #1a1a2e;
+}
+
+#track .bus {
+    fill: #ff9933;
+    stroke: #fff;
+    stroke-width: 2;
+}
+
+#track .togo {
+    font-size: 11px;
+    fill: #555;
+    text-anchor: end;
+    font-variant-numeric: tabular-nums;
+}
+
+/* The pad: a hundred numbers, always ready. */
+#pad {
+    position: relative;
+    z-index: 1;
+    padding: 90px 24px 40px 268px;
+    max-width: 640px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+}
+
+.n {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    box-sizing: border-box;
+    border-radius: 6px;
     background-color: #fff;
-    border: 2px solid #6c5ce7;
-    border-radius: 4px;
-    font-size: 3em;
-    width: 500px;
+    border: 2px solid #1f3a93;
+    color: #1f3a93;
+    font-weight: 600;
+    font-size: 1.2em;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.1s ease;
+}
+
+.n:hover {
+    transform: scale(1.08);
+}
+
+.n:active {
+    background-color: #ff9933;
+    border-color: #ff9933;
+    color: #1a1a2e;
+}
+
+/* Arrival. */
+#play-again {
+    display: none;
+    position: fixed;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    height: 80px;
-    padding: 50px 0;
-    z-index: 200;
-    display: none;
+    padding: 40px 60px;
+    background-color: #fff;
+    border: 2px solid #ff9933;
+    border-radius: 8px;
+    font-size: 2em;
     cursor: pointer;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    z-index: 1000;
+    transition: background-color 0.2s ease;
 }
 
 #play-again:hover {
-    background-color: #6c5ce7;
-    color: #fff;
-}
-
-/* The Miryam version: the overnight bus, warmer and dustier. */
-
-body.miryam {
-    background-color: #f6f1e7;
-    color: #2e2618;
-}
-
-body.miryam #message {
-    background-color: #fffaf0;
-    border-bottom-color: #e0d5c0;
-    font-size: 1.2em;
-    line-height: 1.4;
-    height: auto;
-    min-height: 50px;
-    padding: 8px 16px;
-    box-sizing: border-box;
-}
-
-body.miryam #game-board {
-    padding-top: 90px;
-}
-
-body.miryam #game-board span.guess {
-    background-color: #efe7d6;
-    border-color: #e0d5c0;
-    color: #2e2618;
-}
-
-body.miryam #game-board span.guess:hover {
-    background-color: #e6dccb;
-}
-
-body.miryam #game-board span.guess.wrong,
-body.miryam #game-board span.guess.wrong:hover {
-    background-color: #d9cdb5;
-    color: #6b5a3e;
-}
-
-body.miryam #play-again {
-    background-color: #fffaf0;
-    border-color: #e0a030;
-}
-
-body.miryam #play-again:hover {
-    background-color: #e0a030;
-    color: #fff;
+    background-color: #ff9933;
 }

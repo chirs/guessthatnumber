@@ -1,126 +1,117 @@
 # Design
 
-Product design doc for Guess That Number. Covers the visual system, architecture, game mechanics, and the stuff that looks like bugs but isn't.
+Product design doc for Guess That Number. Covers what the game is, how the
+page is built, and the stuff that looks like bugs but isn't.
+
+
+## What it is
+
+Two friends, a programmer and an artist, on an overnight public bus from
+Delhi to Dharamsala, ten hours, can't sleep, invent a game out loud: pick a
+number, ask if it's the one, yes or no. It has a name before it has anything
+else. It was never about the number. It was a way to spend the ride.
+
+The site is that bus ride. The real road, a diagram of it, a hundred numbers.
+Every question moves the bus a little and the bus moves whether the answer
+was yes or no. The only ending is arrival.
+
+
+## The Game
+
+- **Yes or no** — click a number. The road says "Yes." or "No." by coin
+  flip. There is no secret number. Yes ends nothing. The same number asked
+  again gets a fresh coin
+- **Every question costs road** — `slice` in `miryam.js`: between 5 and 40
+  minutes of the 600, at random. A ride is about thirty questions but nobody
+  knows. Clock follows the minutes, bus follows the clock, kilometres to go
+  follow the bus
+- **The road talks** — after the answer comes a beat from `beats`, picked by
+  `beatAt` from how far along the ride is, so the last one lands as the bus
+  climbs into the hills. Fast rides skip beats. That's fine
+- **Arrival** — when the minutes run out: "McLeod Ganj. We're here." and a
+  `back to delhi` overlay that puts the bus back at the stand
+- **No opener** — the page loads ready: bus on Delhi, 8:00 pm, `departure`
+  in the message bar. The first click is getting on the bus. The name lives
+  in the tab title
+- **The road** — `route.js` holds the driving route from ISBT Kashmere Gate
+  to McLeod Ganj, fetched once from OSRM (OpenStreetMap data) and baked in:
+  about 6,000 `[lat, lng]` points, 501 km. Nothing is fetched at runtime
+  except map tiles
 
 
 ## Visual Design
 
-### Palette
+Modern map, not an old one. The bus was 2007.
 
-Three-tier surfaces:
-- **Body** — `#f2f2f8` (cool off-white)
-- **Panels** — `#fff` (message bar, menu, play-again)
-- **Tiles** — `#e8e8f0` (light grey with a hint of lavender)
-
-Accent violet `#6c5ce7` used for focus rings, play-again border, and hover fills.
-
-Tile states:
-- **Wrong** — pink `#f0c4ca` background, dark rose `#8a2d3b` text
-- **Right** — mint `#c4f0e0` background, deep teal `#1a5c48` text
-
-Text colors: `#1a1a2e` primary, `#6a6a80` muted (menu labels). Borders throughout are `#d8d8e4`.
-
-### Typography
-
-Monospace everywhere. The title is uppercase with `0.15em` letter-spacing, normal weight. Size hierarchy: 2em for the message bar and tiles, 3em for play-again, 1.2em for the input field.
-
-### Layout
-
-- **Message bar** — fixed at top, 50px tall, full width, z-index 100
-- **Menu panel** — centered (400px wide, `translateX(-50%)`), positioned at 20% from top
-- **Game board** — fluid width, max 900px, centered, 70px top padding to clear the message bar
-- **Play-again overlay** — fixed center (`translate(-50%, -50%)`), 500px wide, z-index 200
-
-### Interactions
-
-- Tile hover darkens to `#dcdce8`; wrong/right tiles don't change on hover
-- Buttons and play-again hover fills violet `#6c5ce7` with white text
-- Input focus shows violet border (no outline)
-- Transitions: 0.15s on tiles, 0.2s on buttons and play-again
+- **Background** — the real road on OpenStreetMap standard tiles via Leaflet
+  1.9 (cdnjs), full bleed, fitted to the whole route, tiles greyed and faded
+  so the chrome reads over it. Nothing on it moves. No key, attribution
+  bottom right
+- **Diagram** — a white panel down the left: one navy line, Delhi at the
+  bottom, McLeod Ganj at the top, the towns as white knots at their true
+  share of the road. Chandigarh is about halfway and the hill towns crowd
+  the top; the labels are nudged apart, the knots are not. Saffron bus dot
+  with a white ring climbs the line, kilometres to go beside it
+- **Pad** — a hundred numbers in navy-ringed white squares, always live.
+  Saffron while pressed. They never flip, because nothing is hidden
+- **Chrome** — system sans-serif. Message bar full width on top, clock top
+  right, arrival overlay centered. Panels white with a hairline border
+- **Palette** — navy `#1f3a93` road, saffron `#ff9933` bus, India green
+  `#138808` kept in reserve. The saffron, white, and green are the only
+  India in the palette. Keep it at that
 
 
 ## Architecture
 
-No build system, no bundler, no package manager. Four static files in `www/`, plus jQuery 2.0.2 from Google's CDN.
+No build system, no bundler, no package manager. Static files in `www/`, plus
+jQuery 2.0.2 and Leaflet 1.9.4 from CDNs.
 
-### game.js (GameModule)
+### route.js (RouteData)
 
-IIFE that exports `randomRange`, `makeResponse`, `Game` class, and the response arrays (`missingResponses`, `hittingResponses`). Pure logic, no DOM access.
-
-`Game` takes a number, picks a secret via `randomRange`, and tracks guesses in a Set. Has `makeGuess(n)` and `isComplete()` methods, though neither is currently called by the UI (see Known Limitations).
-
-Conditionally exports via `module.exports` so it can be tested with Node.
+`{ km, coords }`. Data only. Regenerate by hand if the road ever changes; the
+OSRM call is in the git history of this file's first commit.
 
 ### miryam.js (MiryamModule)
 
-Data for the Miryam version: `km`, `departure`, `beats`, `arrival`, and the
-pure `beatFor(clicked, total)`. No DOM access; exported for tests like game.js.
+Pure, no DOM. Story (`departure`, `beats`, `arrival`, `answers`), pacing
+(`beatAt`, `clockFor`), the constants (`minutes`, `slice`), `towns` for the
+diagram, and the road geometry helpers: `lengthKm`, `pointAt(coords,
+fraction)`, `fractionOf(coords, latlng)`. Flat-earth distances; fine at
+500 km.
+
+### game.js (GameModule)
+
+Left over from the tile version. Only `randomRange` is used now.
 
 ### guess.js
 
-IIFE that consumes GameModule and MiryamModule. All DOM work lives here:
+All DOM and Leaflet work: `drawMap()` for the background, `drawTrack()` for
+the diagram, `ask()` for a question, `deal()` for Delhi, and `autoPlay()`
+for riding the bus without lifting a finger.
 
-- `createGame(number, story)` — builds the clickable tile grid, wires click handlers; with a `story` the messages come from it
-- `miryamClick()` — starts the Miryam version (see below)
-- `sendMessage(message)` — updates the `#message` bar
-- `showBoard()` / `unhideMenu()` — toggles between menu and game views
-- `choiceClick()` / `randomClick()` — entry points from the two menu buttons
-- `autoPlay()` — easter egg; auto-clicks random remaining tiles every 50ms
+### Tests
 
-Click handlers manage state via jQuery class toggling (`.wrong` / `.right`) and check the guess against `game.secret` directly.
-
-### Separation
-
-game.js is testable (there's a test.js). guess.js is the UI controller with side effects. The boundary is clean but the UI doesn't use the Game class's own methods for guessing — it reads `.secret` and does its own bookkeeping via DOM state.
-
-
-## Game Flow
-
-1. **Menu** — player types a number or clicks "random" (picks 10–1000)
-2. **Play** — tiles appear, click to guess. Wrong adds `.wrong` class + random miss message. Right adds `.right` class + win message + shows play-again overlay
-3. **Auto-win** — when one tile remains unclicked, it's automatically marked correct
-4. **Play again** — click the overlay, resets to menu
-
-
-## The Miryam Version
-
-A second, quieter version of the game behind the muted `miryam` button on the
-menu. Same mechanic, but the board is the overnight bus from Delhi to McLeod
-Ganj where the game was written.
-
-- **Board** — 480 tiles, one per kilometre of road (`MiryamModule.km`)
-- **Story** — `miryam.js` holds ~40 beats in order. `beatFor(clicked, total)`
-  maps how much of the board has been clicked onto a beat index, so the story
-  is paced to the board and reaches the end as the tiles run out. Wrong clicks
-  show the current beat instead of a miss message; the win shows `arrival`
-- **Look** — `body.miryam` swaps the palette to dusty road and marigold; the
-  message bar drops to 1.2em and allows two lines; play-again reads
-  `back to delhi` and restores the normal game
-
-The beats are a draft. Edit `miryam.js` to make them true.
+`node www/test.js`. Covers the story pacing, the clock, the question cost,
+and the road geometry against the baked route, including that the towns sit
+on it in order. No browser tests.
 
 
 ## Edge Cases (by design)
 
-These are features, not bugs. They were made intentional in commit `c36f4b2`.
-
-- **0** — empty board, instant win message, play-again shown immediately. You win by doing nothing.
-- **Negative numbers** — generates tiles from N to -1. Works fine, just weird.
-- **Non-numeric input** — "Please pick a number" message, stays on menu. This is the only validation.
-
-
-## Design Philosophy
-
-The game is intentionally simple. No hints, no strategy, no score, no timer. You click tiles until you find the number. If you don't give up, you will eventually win.
-
-It was created on a rickety bus from Delhi to Dharamsala to kill time. The "dumbness" is the point — the README's only known issue is "not yet dumb enough."
-
-Edge cases producing weird behavior (winning instantly with 0, guessing negative numbers) fit the spirit of the thing. Making them work mechanically was more fun than rejecting them.
+- **Rides always end** — you can't lose, and you can't win. If you keep
+  asking, you will eventually arrive
+- **Yes means nothing** — a yes is worth exactly one no. Anyone who stops on
+  a yes has misunderstood the bus
+- **Ride length varies** — twenty questions or forty. The dice are the road
+- **Reload loses the ride** — nothing is saved. That's the bus
 
 
 ## Known Limitations
 
-- **No mobile support** — no viewport meta tag, fixed-width layout, unplayable on phones
-- **Dead analytics** — Universal Analytics (`UA-` tracking ID) shut down in 2023
-- **XHTML 1.0 Strict doctype** — legacy artifact, plain `<!DOCTYPE html>` would do
-- **Unused Game methods** — `Game.makeGuess()` and `Game.isComplete()` are defined but never called; the click handler reads `game.secret` directly and tracks state via DOM classes
+- **Tiles come from openstreetmap.org** — fine for a small site; heavy use
+  would want a proper tile provider
+- **Dead analytics** — Universal Analytics (`UA-` tracking ID) shut down in
+  2023
+- **Phone width** — the diagram is fixed to the left and the pad sits beside
+  it; narrow screens haven't been looked at
+- **Beats are a draft** — they still mention a laptop that was not on the bus
