@@ -19,13 +19,14 @@ moves either way, and you arrive when the bus does.
 
 #### Rules
 
-1. Pick a number
-2. The road says yes or no
-3. It isn't listening
-4. The bus moves either way
-5. There are no hints
-6. There is no strategy
-7. If you don't give up, you will eventually arrive.
+1. Say how many questions it will take
+2. Pick a number
+3. The road says yes or no
+4. It isn't listening
+5. The bus moves either way
+6. There are no hints
+7. There is no strategy
+8. If you don't give up, you will eventually arrive. The road tells you how many it took.
 
 
 #### Known Issues

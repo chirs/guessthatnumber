@@ -4,7 +4,7 @@
     var road = RouteData.coords;
     var km = M.lengthKm(road);
 
-    var elapsed, bus, togo, marker;
+    var elapsed, bus, togo, marker, guess, asked;
 
     var sendMessage = function(message) {
 	return $("#message").html(message);
@@ -70,8 +70,15 @@
     };
 
     // Ask the road if it's this number. It says yes or no. It doesn't matter.
+    // The first number isn't a question. It's how many questions you think.
     var ask = function() {
 	if (elapsed >= M.minutes) return;
+	if (guess === null) {
+	    guess = Number($(this).text());
+	    sendMessage(M.departure);
+	    return;
+	}
+	asked++;
 	$(this).addClass("asked");
 	var cost = randomRange(M.slice.min, M.slice.max);
 	var back = Math.random() < M.setback;
@@ -79,7 +86,7 @@
 	moveBus();
 
 	if (elapsed >= M.minutes) {
-	    sendMessage(M.arrival);
+	    sendMessage(M.arrivalFor(guess, asked));
 	    $("#play-again").show();
 	    return;
 	}
@@ -94,8 +101,10 @@
 	$("#play-again").hide();
 	$("#pad .n").removeClass("asked");
 	elapsed = 0;
+	guess = null;
+	asked = 0;
 	moveBus();
-	sendMessage(M.departure);
+	sendMessage(M.howMany);
     };
 
     // For riding the bus without lifting a finger.

@@ -12,7 +12,10 @@ var MiryamModule = (function() {
     // The road answers. It isn't listening.
     var answers = ["Yes.", "No."];
 
-    var departure = "Delhi, evening. Ten hours to McLeod Ganj. Pick a number.";
+    // Before anything, a guess about the guessing.
+    var howMany = "Delhi, evening. Ten hours to McLeod Ganj. How many questions will it take?";
+
+    var departure = "Pick a number.";
 
     // The overnight bus, in order. Only the road and what we remember,
     // which is that it was bumpy and long.
@@ -39,7 +42,11 @@ var MiryamModule = (function() {
 	"Pine trees, cold air. None of it familiar."
     ];
 
-    var arrival = "McLeod Ganj. We're here.";
+    // What the road says on arrival: how many it took, next to what you said.
+    var arrivalFor = function(guess, asked) {
+	return "McLeod Ganj. We're here. " + asked + (asked === 1 ? " question." : " questions.")
+	    + " You said " + guess + ".";
+    };
 
     // What the road says when the bus goes backwards.
     var setbacks = [
@@ -131,8 +138,8 @@ var MiryamModule = (function() {
 	return along[best] / along[along.length - 1];
     };
 
-    return { minutes, slice, setback, setbacks, answers, departure, beats,
-	     arrival, towns, beatAt, clockFor, lengthKm, pointAt, fractionOf };
+    return { minutes, slice, setback, setbacks, answers, howMany, departure, beats,
+	     arrivalFor, towns, beatAt, clockFor, lengthKm, pointAt, fractionOf };
 })();
 
 if (typeof module !== 'undefined' && module.exports) {
