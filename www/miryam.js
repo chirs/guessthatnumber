@@ -4,7 +4,7 @@ var MiryamModule = (function() {
     var departsAt = 20 * 60;
 
     // How much of the ride one question uses up, in minutes. Nobody knows.
-    var slice = { min: 5, max: 40 };
+    var slice = { min: 5, max: 30 };
 
     // The road answers. It isn't listening.
     var answers = ["Yes.", "No."];

@@ -21,8 +21,9 @@ was yes or no. The only ending is arrival.
 - **Yes or no** — click a number. The road says "Yes." or "No." by coin
   flip. There is no secret number. Yes ends nothing. The same number asked
   again gets a fresh coin
-- **Every question costs road** — `slice` in `miryam.js`: between 5 and 40
-  minutes of the 600, at random. A ride is about thirty questions but nobody
+- **Every question costs road** — `slice` in `miryam.js`: between 5 and 30
+  minutes of the 600, at random, 5% of the ride at most. A ride is about
+  thirty-five questions but nobody
   knows. Clock follows the minutes, bus follows the clock, kilometres to go
   follow the bus
 - **The road talks** — after the answer comes a beat from `beats`, picked by

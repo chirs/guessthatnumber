@@ -96,7 +96,7 @@ var RouteData = require('./route');
 
 (function testSliceIsAFewQuestionsAnHour() {
   assert(slice.min > 0 && slice.max > slice.min, 'slice is a range');
-  assert(slice.max <= minutes / 10, 'no single question eats more than an hour');
+  assert(slice.max <= minutes / 20, 'no single question eats more than 5% of the ride');
   console.log('PASS: a question uses between ' + slice.min + ' and ' + slice.max + ' minutes');
 })();
 
