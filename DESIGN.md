@@ -41,7 +41,7 @@ Monospace everywhere. The title is uppercase with `0.15em` letter-spacing, norma
 
 ## Architecture
 
-No build system, no bundler, no package manager. Three static files in `www/`, plus jQuery 2.0.2 from Google's CDN.
+No build system, no bundler, no package manager. Four static files in `www/`, plus jQuery 2.0.2 from Google's CDN.
 
 ### game.js (GameModule)
 
@@ -51,11 +51,17 @@ IIFE that exports `randomRange`, `makeResponse`, `Game` class, and the response 
 
 Conditionally exports via `module.exports` so it can be tested with Node.
 
+### miryam.js (MiryamModule)
+
+Data for the Miryam version: `km`, `departure`, `beats`, `arrival`, and the
+pure `beatFor(clicked, total)`. No DOM access; exported for tests like game.js.
+
 ### guess.js
 
-IIFE that consumes GameModule. All DOM work lives here:
+IIFE that consumes GameModule and MiryamModule. All DOM work lives here:
 
-- `createGame(number)` — builds the clickable tile grid, wires click handlers
+- `createGame(number, story)` — builds the clickable tile grid, wires click handlers; with a `story` the messages come from it
+- `miryamClick()` — starts the Miryam version (see below)
 - `sendMessage(message)` — updates the `#message` bar
 - `showBoard()` / `unhideMenu()` — toggles between menu and game views
 - `choiceClick()` / `randomClick()` — entry points from the two menu buttons
@@ -74,6 +80,24 @@ game.js is testable (there's a test.js). guess.js is the UI controller with side
 2. **Play** — tiles appear, click to guess. Wrong adds `.wrong` class + random miss message. Right adds `.right` class + win message + shows play-again overlay
 3. **Auto-win** — when one tile remains unclicked, it's automatically marked correct
 4. **Play again** — click the overlay, resets to menu
+
+
+## The Miryam Version
+
+A second, quieter version of the game behind the muted `miryam` button on the
+menu. Same mechanic, but the board is the overnight bus from Delhi to McLeod
+Ganj where the game was written.
+
+- **Board** — 480 tiles, one per kilometre of road (`MiryamModule.km`)
+- **Story** — `miryam.js` holds ~40 beats in order. `beatFor(clicked, total)`
+  maps how much of the board has been clicked onto a beat index, so the story
+  is paced to the board and reaches the end as the tiles run out. Wrong clicks
+  show the current beat instead of a miss message; the win shows `arrival`
+- **Look** — `body.miryam` swaps the palette to dusty road and marigold; the
+  message bar drops to 1.2em and allows two lines; play-again reads
+  `back to delhi` and restores the normal game
+
+The beats are a draft. Edit `miryam.js` to make them true.
 
 
 ## Edge Cases (by design)
